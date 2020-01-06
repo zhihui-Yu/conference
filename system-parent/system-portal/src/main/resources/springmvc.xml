@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <import resource="spring-service.xml"/>
+	<!-- 扫描注解 -->
+	<context:component-scan base-package="com.yzh.portal.controller"></context:component-scan>
+	<!-- 注解驱动 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 静态资源 -->
+	<mvc:resources location="/pages/js/" 			mapping="/pages/js/**"/>
+	<mvc:resources location="/pages/css/" 			mapping="/pages/css/**"/>		
+	<mvc:resources location="/pages/admin/js/" 		mapping="/pages/admin/js/**"/>	 
+	<mvc:resources location="/pages/admin/css/"	 	mapping="/pages/admin/css/**"/>	
+	<mvc:resources location="/pages/img/" 			mapping="/pages/img/**"/>		
+	<mvc:resources location="/pages/files/" 		mapping="/pages/files/**"/>
+	<mvc:resources location="/pages/" 		mapping="/pages/**"/>
+	<mvc:resources location="/upload/" 		mapping="/upload/**"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="maxUploadSize" value="2048000"></property>
+	</bean>
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"></property>
+		<property name="prefix" value="/pages/"></property>
+	</bean>
+	
+	<!-- <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/**"/>
+    		<bean class="com.yzh.portal.intercepetor.DefaultIntercepetor"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors> -->
+</beans>

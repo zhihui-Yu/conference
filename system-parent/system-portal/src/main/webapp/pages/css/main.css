@@ -1,0 +1,145 @@
+
+/*-----------content------------*/
+.content{
+	float: left;
+	width: 80%;
+	margin-left: 12%;
+	margin-top: 1%;
+}
+.content .text{
+	text-align: center;
+	color: white;
+	line-height: 40px;
+}
+.content .left{
+	float: left;
+	width: 295px;
+	height: 500px;
+	background-color: dodgerblue;
+	padding: 25px 25px 25px 25px;
+}
+.content .left .select{
+	float: left;
+	margin-top: 15px;
+	width: 250px;
+	height: 20px;
+	background-color: white;
+	padding: 20px 20px 20px 20px;
+	color: darkgray;
+}
+.content .left .select .selectWords{
+	float: left;
+	text-align: left;
+}
+.content .left .select .selectText{
+	float: right;
+}
+.content .left .select .selectText select{
+	width: 100px;
+	height: 25px;
+	border: none;
+}
+.content .left .sub{
+	float: left;
+	width: 290px;
+	height: 35px;
+	margin-top: 25px;
+}
+.content .left .sub button{
+	width: 100%;
+	height: 100%;
+	background: darkorange;
+	border: none;
+	cursor: pointer;
+	color: white;
+}
+.content .left .sub button:hover{
+	background: orange;
+}
+.content .left .select .time{
+	float: right;
+}
+.content .left .select .time input{
+	border: none;
+	background: white;
+	color: darkgrey;
+	width: 150px;
+	height: 25px;
+	float: right;
+}
+.content .right{
+	float: left;
+	width: 800px;
+	padding: 0px 20px 20px 11px;
+}
+.content .right  ul li{
+	width: 32%;
+	height: 250px;
+	float: left;
+	list-style-type: none;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.content .right ul li .right_content .topImg{
+	float: left;
+	width: 100%;
+	height: 180px;
+}
+.content .right ul li .right_content .topImg img{
+	width: 100%;
+	height: 100%;
+}
+.content .right ul li .right_content .downText{
+	float: left;
+	width: 99%;
+	line-height: 32px;
+	border: solid 1px darkgray;
+	border-top: none;
+}
+.content .right ul li .right_content .downText .cnfer_name{
+	font-size: 18px;
+	width: 32%;
+	float: left;
+}
+.content .right ul li .right_content .downText .confer_price{
+	font-size: 18px;
+	float: right;
+	width: 50%;
+	color: orange;
+	text-align: right;
+}
+.content .right ul li .right_content .downText .confer_infor{
+	font-size: 14px;
+	float: left;
+	width: 100%;
+}
+/*-----------footer-----------*/
+.footer{
+	float: left;
+	margin-top: 50px;
+	width: 100%;
+	
+}
+.footer .footer_1{
+	float: left;
+	width: 100%;
+	margin-top: 20px;
+	background: #F8F8F8;
+
+}
+.footer .footer_1 table{
+	margin-left: 30%;
+	font-size: 13px;
+	float: left;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.footer .footer_1 table tr td a img{
+	width: 200px;
+	height: 35px;
+}
+.wei{
+	width: 90px;
+	height: 90px;
+}

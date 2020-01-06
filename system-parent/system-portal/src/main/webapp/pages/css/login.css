@@ -1,0 +1,157 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+div {
+	/*border: 1px dashed;*/
+}
+.header{
+	float: left;
+	width: 100%;
+	height: 80px;
+	border-bottom: 2px solid darkgrey;
+}
+.header .title{
+	float: left;
+	height: 80px;
+	width: 250px;
+	margin-left: 12%;
+}
+.header .title img{
+	float: left;
+	width: 80px;
+	height: 78px;
+}
+.header .title .logotext{
+	float: left;
+	font-size: 28px;
+	color: darkorange;
+	margin-top: 25px;
+	margin-left: 4px;
+}
+.header .right{
+	float: right;
+	height: 80px;
+	width: 300px;
+	text-align: right;
+	margin-right: 12%;
+}
+.header .right .right_text{
+	float: right;
+	margin-top: 40px;
+	font-size: 13px;
+}
+.header .right .right_text_color{
+	color: darkgray;
+}
+a{
+	color: white;
+}
+a:hover{
+	color: lightgrey;
+}
+.font{
+	font-size: 13px;
+}
+.form{
+	float: left;
+	width: 100%;
+	height: 400px;
+}
+.login {
+	position: absolute;
+	top: 35%;
+	left: 39%;
+	width: 300px;
+	height: 30px;
+}
+
+.login .username {
+	margin-bottom: 15px;
+}
+
+.login .passowrd {
+	margin-bottom: 15px;
+}
+
+.login .pwdAndusrtext {
+	border: 1px solid #BECAD5;
+	width: 235px;
+	height: 35px;
+	background-color: #ECF5FA;
+	font-size: 12px;
+	border-left: none;
+	border-radius: 2px;
+	padding: 0px 0px 0px 5px;
+	color: deepgrey;
+	background-color: white;
+}
+
+.login .pwdAndusrimg {
+	float: left;
+	width: 35px;
+	height: 35px;
+}
+
+.login .veri .vtext {
+	width: 100px;
+	float: left;
+	height: 35px;
+	padding-left:5px;
+	color: deepgrey;
+}
+
+.login .veri  .vimg1 {
+	float: left;
+	width: 35px;
+	height: 37px;
+}
+
+.login .veri  .vimg2 {
+	cursor: pointer;
+	margin-left: 60px;
+	width: 70px;
+	height: 35px;
+}
+.forget{
+	margin: 11px 0px 11px 2px;
+}
+.register{
+	float: right;
+	margin-right: 35px;
+	margin-bottom:15px;
+}
+.sub {
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+	text-align: center;
+	background-color:  ;
+	opacity: 0.75;
+	width: 275px;
+	height: 35px;
+}
+.sub:hover{
+	background-color: #B14F00;
+	color: white;
+}
+.footer{
+	float: left;
+	margin-top: 200px;
+	width: 100%;
+	
+}
+.footer .footer_2{
+	float: left;
+	background: #666666;
+	width: 100%;
+	text-align: center;
+	height: 80px;
+}
+.footer .footer_2 span{
+	position: relative;
+	top: 7px;
+	font-size: 14px;
+	line-height: 30px;
+	color: #C1C1C1;
+}

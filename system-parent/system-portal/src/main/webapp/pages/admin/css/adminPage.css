@@ -1,0 +1,50 @@
+div{
+	/*border: dashed 1px black;*/
+}
+.header #words{
+	float: left; 
+	margin-top: 15px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 30px;
+}
+.content1 .content_left{
+	position: relative;
+	width: 260px;
+	padding: 20px 20px 20px 180px;
+	top: 100px;
+}
+.content1 .content_right{
+	position: relative;
+	top: -100px;
+	left: 500px;
+	width: 660px;
+	height: 600px;
+}
+.div {
+	font-size: 15px;
+	color: #000000;
+	line-height: 22px;
+}
+img {
+	vertical-align: middle;
+}
+.div a {
+	font-size: 20px;
+	color: #000000;
+	text-decoration: none;
+}
+.div a:hover {
+	font-size: 20px;
+	color: #999999
+}
+.words{
+	cursor: pointer;
+}
+.words:hover{
+	color: #999999
+}
+input[type="button"]{
+	width:45px;
+	height:20px;
+}
