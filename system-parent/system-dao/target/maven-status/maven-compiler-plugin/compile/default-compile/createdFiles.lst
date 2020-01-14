@@ -1,0 +1,13 @@
+com\yzh\dao\mapper\UserMapper.class
+com\yzh\dao\pojo\Approve.class
+com\yzh\dao\pojo\Fav.class
+com\yzh\dao\pojo\ConferInfor.class
+com\yzh\dao\pojo\PeoNum.class
+com\yzh\dao\pojo\User.class
+com\yzh\dao\mapper\AdminMapper.class
+com\yzh\dao\pojo\Img.class
+com\yzh\dao\pojo\Discuss.class
+com\yzh\dao\pojo\Admin.class
+com\yzh\dao\pojo\Deal.class
+com\yzh\dao\pojo\Favorite.class
+com\yzh\dao\pojo\Record.class

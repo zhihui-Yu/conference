@@ -111,7 +111,7 @@
 				alert("请输入正确的用户名");
 			}else{
 				$.post("selUser",{username:username},function(data){
-					if(data == null){
+					if(data == null || data == ""){
 						alert("没有相关信息");
 						$("#updUser").css("display","none");
 					}else{

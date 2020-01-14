@@ -56,8 +56,13 @@
 						width : 80,
 						sort : true,
 						templet : function(d) {
-							return '<span style="color: #c00;">' + d.user.sex
-									+ '</span>'
+							if(d.user.sex == '0'){
+								return '<span style="color: #c00;">' + '男'
+										+ '</span>'
+							}else{
+								return '<span style="color: #c00;">' + '女'
+								+ '</span>'
+							}
 						}
 					},
 					{

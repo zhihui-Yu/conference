@@ -8,6 +8,8 @@ public class User {
 	private String tel;
 	private double money;
 	private int status;
+	private String birth;
+	private String address;
 	private String comm;
 	
 	
@@ -15,6 +17,26 @@ public class User {
 	public String toString() {
 		return "User [uid=" + uid + ", username=" + username + ", password=" + password + ", sex=" + sex + ", tel="
 				+ tel + ", money=" + money + ", status=" + status + ", comm=" + comm + "]";
+	}
+
+	
+	public String getBirth() {
+		return birth;
+	}
+
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 

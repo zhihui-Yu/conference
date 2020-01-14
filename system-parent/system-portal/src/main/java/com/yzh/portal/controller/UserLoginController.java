@@ -96,12 +96,11 @@ public class UserLoginController {
 				String words = (String) req.getSession().getAttribute("vercode");
 				if(code.equals(words)){
 					if(user.getStatus()==0){
-						session.setAttribute("user", u);
+						session.setAttribute("user", user);
 						return "redirect:/main";
 					}
 				}
 			}
-			//req.setAttribute("message", "username or password is error");
 			return "login";
 		}
 	}

@@ -24,6 +24,7 @@ public class AddConfer {
 		String comm = req.getParameter("comm");
 		
 		String url = req.getSession().getServletContext().getRealPath("/upload");
+		System.out.println("upload --- -->"+url);
 		String[] paths = SaveImg.saveFile(file, url);
 		
 		//返回消息

@@ -54,6 +54,9 @@
 							<dd>
 								<a href="javascript:void(0);" onclick="openThis(this)" id="updU">登入权限</a>
 							</dd>
+							<dd>
+								<a href="javascript:void(0);" onclick="openThis(this)" id="takeMsg">反馈信息</a>
+							</dd>
 						</dl></li>
 					<li class="layui-nav-item"><a href="javascript:void(0);">会议室审核管理</a>
 						<dl class="layui-nav-child">
@@ -83,6 +86,8 @@
 					<iframe class="selU" style="display: none;width: 100%;height: 800px;border:none" src="selUser.jsp"></iframe>
 					<!-- 修改用户 -->
 					<iframe class="updU" style="display: none;width: 100%;height: 800px;border:none" src="updUser.jsp"></iframe>
+					<!-- 修改用户 -->
+					<iframe class="takeMsg" style="display: none;width: 100%;height: 800px;border:none" src="updUser.jsp"></iframe>
 					<!-- 查找待审核 -->
 					<iframe class="selA" style="display: none;width: 100%;height: 800px;border:none" src="selA.jsp"></iframe>
 					<!-- 查找已审核 -->
