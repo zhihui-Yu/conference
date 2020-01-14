@@ -8,14 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yzh.dao.pojo.User;
-import com.yzh.service.UserLoginService;
+import com.yzh.service.UserService;
 
 @Controller
 @RequestMapping("/pages")
 public class UserLoginController {
 	
 	@Resource
-	private UserLoginService userLoginServiceImpl;
+	private UserService userServiceImpl;
 
 	@RequestMapping("main")
 	public String main(){

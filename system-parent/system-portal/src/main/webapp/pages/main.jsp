@@ -63,14 +63,14 @@
 				 */
 			});
 			// 修改密码
-			$("#change").click(function() {
+			$("#changeUserPassword").click(function() {
 				$.post("changePassword", {
 					old : $("#old").val(),
 					new1 : $("#new1").val(),
 					new2 : $("#new2").val()
 				}, function(data) {
 					if (data == "修改成功") {
-						window.location.href = $("#jspPath").val() + "logout";
+						window.location.href = $("#jspPath").val() + "/logout";
 					} else {
 						alert(data);
 					}
