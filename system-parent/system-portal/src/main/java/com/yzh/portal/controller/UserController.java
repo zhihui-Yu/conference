@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yzh.dao.pojo.User;
 import com.yzh.service.UserService;
 
-@Controller
+@Controller()
+@RequestMapping("/pages")
 public class UserController {
 	@Resource
 	private UserService userServiceImpl;
@@ -57,7 +58,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping("changeUserPassword")
-	public String changePassword(HttpServletRequest request) {
+	public String changePassword(HttpServletRequest request, HttpServletResponse res) {
 		//获取参数
 		String old = request.getParameter("old");
 		String new1 = request.getParameter("new1");

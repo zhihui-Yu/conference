@@ -2,7 +2,7 @@ package com.yzh.service;
 
 import com.yzh.dao.pojo.User;
 
-public interface UserLoginService {
+public interface UserService {
 	/**
 	 * 登入
 	 * @param u

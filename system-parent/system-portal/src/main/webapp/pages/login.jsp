@@ -42,7 +42,7 @@
 				</div>
 				<div class="passowrd">
 					<img src=<%=application.getContextPath() + "/pages/img/p.jpg"%>
-						class="pwdAndusrimg" /> <input type="text" name="password"
+						class="pwdAndusrimg" /> <input type="password" name="password"
 						placeholder="密码" class="pwdAndusrtext" id="password"/>
 				</div>
 				<div class="veri">

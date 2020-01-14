@@ -52,7 +52,7 @@ public class UserLoginController {
 		u.setTel(tel);
 		u.setMoney(money);
 		u.setStatus(status);
-		int index = userLoginServiceImpl.addUser(u);
+		int index = userServiceImpl.addUser(u);
 		if(index == 1 ){
 			session.setAttribute("user", u);
 			return "redirect:/main";
@@ -89,7 +89,7 @@ public class UserLoginController {
 			User u = new User();
 			u.setUsername(username);
 			u.setPassword(password);
-			User user = userLoginServiceImpl.checkUser(u);
+			User user = userServiceImpl.checkUser(u);
 			
 			
 			if(user!=null){

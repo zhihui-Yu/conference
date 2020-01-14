@@ -63,8 +63,8 @@
 				 */
 			});
 			// 修改密码
-			$("#changeUserPassword").click(function() {
-				$.post("changePassword", {
+			$("#change").click(function() {
+				$.post("changeUserPassword", {
 					old : $("#old").val(),
 					new1 : $("#new1").val(),
 					new2 : $("#new2").val()
@@ -75,7 +75,7 @@
 						alert(data);
 					}
 				})
-			})
+			});
 
 			// 初始时候给某些标签一些样式或属性
 			$(" :password").css("width", "260px");
