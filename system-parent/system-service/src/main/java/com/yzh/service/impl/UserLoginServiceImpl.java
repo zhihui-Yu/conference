@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.yzh.dao.mapper.UserMapper;
 import com.yzh.dao.pojo.User;
-import com.yzh.service.UserLoginService;
+import com.yzh.service.UserService;
 @Service
-public class UserLoginServiceImpl implements UserLoginService{
+public class UserLoginServiceImpl implements UserService{
 	@Resource
 	private UserMapper userMapper;
 
