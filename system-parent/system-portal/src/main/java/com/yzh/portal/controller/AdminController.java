@@ -131,7 +131,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping("selConfer")
 	public Confer selConfer(HttpServletRequest req,String name) {
-		System.out.println("前端的name"+name);
 		// 查找conferInfor
 		Confer c = new Confer();
 		c = SelConfer.selConfer(name, adminServiceImpl, c);

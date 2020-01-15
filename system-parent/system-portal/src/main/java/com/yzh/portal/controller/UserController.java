@@ -1,13 +1,21 @@
 package com.yzh.portal.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.User;
+import com.yzh.portal.dto.Users;
 import com.yzh.service.UserService;
 
 @Controller()
@@ -17,9 +25,41 @@ public class UserController {
 	private UserService userServiceImpl;
 	
 	/**
+	 * 反馈信息
+	 * @param req
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("BackMsg")
+	@ResponseBody
+	public void backMsg(HttpServletRequest req,HttpServletResponse res) throws IOException{
+		//获取参数
+		String msg = req.getParameter("msg");
+		String uid = req.getParameter("uid");
+		
+		//保存信息
+		int index = userServiceImpl.insUserMsg(Integer.parseInt(uid), msg);
+		//判断是不是保存成功
+		if(index < 0){
+			msg = "提交失败";
+		} else {
+			msg = "提交成功";
+		}
+		res.setCharacterEncoding("utf-8");
+		PrintWriter writer = res.getWriter();
+		writer.write(msg);
+		writer.flush();
+		writer.close();
+	}
+	
+	/**
 	 * 修改信息
 	 */
-	public String changeUserInfo(HttpServletRequest req,String[] fav,String uid){
+	@RequestMapping("changeUserInfo")
+	@ResponseBody
+	public void changeUserInfo(HttpServletRequest req,String[] favs,@RequestParam(value="uid")String uid,HttpServletResponse res) throws IOException{
+		System.out.println(favs);
+		
 		String msg = "";
 		//获取参数
 		String username = req.getParameter("username");
@@ -35,37 +75,75 @@ public class UserController {
 		u.setBirth(birth);
 		u.setComm(comm);
 		u.setTel(tel);
-		u.setSex(sex=="1"?1:0);
+		u.setSex(sex.equals("1")?1:0);
 		u.setUid(Integer.parseInt(uid));
 		//更新数据库信息
 		//更新用户信息
 		int index = userServiceImpl.updUserById(u);
 		//更新爱好信息
+		boolean flag = true;
+		//删除所有的信息
+		userServiceImpl.delUserFav(u.getUid());
 		
-		if(index > 0){
+		//如果前端传来的favs不是是空
+		if(favs!=null){
+			for (String fname : favs) {
+				Fav f = new Fav();
+				f.setFname(fname);
+				f.setUid(u.getUid());
+				int index2 = userServiceImpl.insFavByUid(f);
+				if(index2 < 0){
+					flag = false;
+				}
+			}
+		}
+		if(index > 0 && flag){
 			msg = "修改成功";
 		} else {
 			msg = "修改失败";
 		}
 		
-		return msg;
+		//将新的信息放入session 查找用户，爱好 将信息放入session
+		//获取session中的用户对象
+		Users users = (Users)req.getSession().getAttribute("users");
+		//将用对象中的用户信息放入一个 新的对象
+		User user = users.getUser();
+		//将重新查找出来的用户信息放入之前创建的对象中
+		user = userServiceImpl.selUser(user);
+		//重新查找用户的爱好
+		List<Fav> fav = userServiceImpl.selFavByUid(user.getUid());
+		//将爱好放入用户对象
+		users.setFav(fav);
+		//将用户信息放入用户对象
+		users.setUser(user);
+		//替换之前的session对象
+		req.getSession().setAttribute("users", users);
+		
+		//返回信息
+		res.setCharacterEncoding("utf-8");
+		PrintWriter writer = res.getWriter();
+		writer.write(msg);
+		writer.flush();
+		writer.close();
 	}
 	
 	/**
 	 * 修改密码
 	 * @param request
 	 * @return
+	 * @throws IOException 
 	 */
 	@ResponseBody
 	@RequestMapping("changeUserPassword")
-	public String changePassword(HttpServletRequest request, HttpServletResponse res) {
+	public void changePassword(HttpServletRequest request, HttpServletResponse res) throws IOException {
 		//获取参数
 		String old = request.getParameter("old");
 		String new1 = request.getParameter("new1");
 		String new2 = request.getParameter("new2");
 		
 		//从session中获取用户信息
-		User user = (User) request.getSession().getAttribute("user");
+		Users users = (Users) request.getSession().getAttribute("users");
+		User user = users.getUser();
 		//执行sql的返回值
 		Integer index = null;
 		//返回前端的值
@@ -93,6 +171,10 @@ public class UserController {
 		} else {
 			msg = "请先登入";
 		}
-		return msg;
+		res.setCharacterEncoding("utf-8");
+		PrintWriter writer = res.getWriter();
+		writer.write(msg);
+		writer.flush();
+		writer.close();
 	}
 }
