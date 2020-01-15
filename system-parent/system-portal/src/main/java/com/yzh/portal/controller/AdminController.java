@@ -72,14 +72,6 @@ public class AdminController {
 	@RequestMapping("addConfer")
 	public String addConfer(HttpServletRequest req, HttpServletResponse res,@RequestParam MultipartFile[] file) throws IOException {
 		AddConfer.addConfer(req, file, adminServiceImpl);
-		
-/*		ObjectMapper mapper = new ObjectMapper();
-		String str = mapper.writeValueAsString("修改成功");
-		PrintWriter writer = res.getWriter();
-		writer.write(str);
-		writer.flush();
-		writer.close();
-*/		
 		return "redirect:/pages/admin/addConfer.jsp";
 	}
 
@@ -152,13 +144,8 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping("delConfer")
 	public String delConfer(String name, HttpServletRequest req) throws IOException {
-		// 放入查找到的conferInfor
-		List<Confer> confer = new ArrayList<Confer>();
 		// 删除指定的name的会议室 包括infor和img信息 以及本地图片
 		String msg = DelConfer.delConfer(req, adminServiceImpl, name);
-		// 显示所有的会议室信息
-		//confer = SelAllConfer.selAllConfer(adminServiceImpl, confer);
-		//return  "redirect:/pages/admin/updConfer.jsp";
 		return msg;
 	}
 	
@@ -205,6 +192,8 @@ public class AdminController {
 	@RequestMapping("searchUser")
 	@ResponseBody
 	public void searchUser(HttpServletRequest req, HttpServletResponse res,String name) throws IOException {
+		//返回信息
+		String result = "";
 		// 获取用户信息
 		List<User> user;
 		if (name == "") {
@@ -215,19 +204,20 @@ public class AdminController {
 		// 将用户添加进Users
 		List<Users> users = new ArrayList<Users>();
 		if (user == null) {
-			/*return null;*/
-		}
-		for (User u : user) {
-			// 获取用户的爱好
-			List<Fav> selFavByUid = adminServiceImpl.selFavByUid(u.getUid());
-			Users u2 = new Users();
-			u2.setUser(u);
-			u2.setFav(selFavByUid);
-			users.add(u2);
+			result = "无该用户";
+		} else {
+			for (User u : user) {
+				// 获取用户的爱好
+				List<Fav> selFavByUid = adminServiceImpl.selFavByUid(u.getUid());
+				Users u2 = new Users();
+				u2.setUser(u);
+				u2.setFav(selFavByUid);
+				users.add(u2);
+			}
 		}
 		Layui data = Layui.data(users.size(), users);
 		ObjectMapper mapper = new ObjectMapper();
-		String result = mapper.writeValueAsString(data);
+		result = mapper.writeValueAsString(data);
 		res.setCharacterEncoding("utf-8");
 		PrintWriter writer = res.getWriter();
 		writer.write(result);

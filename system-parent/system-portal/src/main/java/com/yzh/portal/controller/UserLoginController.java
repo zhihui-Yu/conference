@@ -21,11 +21,6 @@ public class UserLoginController {
 	
 	@Resource
 	private UserService userServiceImpl;
-
-	@RequestMapping("main")
-	public String main(){
-		return "redirect:/pages/main.jsp";
-	}
 	
 	/**
 	 * user register page

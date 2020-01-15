@@ -39,6 +39,30 @@ body {
 </style>
 <script type="text/javascript">
 	$(function() {
+		//请求会议室数据
+		$.post("conferInfo",{},function(data){
+			//将json字符串转换为json数组
+			var confer = JSON.parse(data);
+			var str = "";
+			for(var i = 0; i < confer.length; i++){
+				str = '<a id="#panel-10" href="javascript:void(0);" onclick="show(this);">'
+					+'<img alt="140x140" style="width:140px;height:140px" src="'+confer[i].img[0].path +'" /> ' 
+					+'<br />描述 '+ confer[i].ci.conferName
+					+'<br />可容纳人数 '+ confer[i].ci.peoCount
+					+'<br />价格 '+ confer[i].ci.price
+					+'</a>';
+				if(i%4 == 0){
+					$("#content1").append(str);
+				} else if(i%4 == 1) {
+					$("#content2").append(str);
+				} else if(i%4 == 2) {
+					$("#content3").append(str);
+				} else if(i%4 == 3) {
+					$("#content4").append(str);
+				}
+			}
+		});
+		
 		//修改信息之爱好默认选定
 		$("input:checkbox").each(function() {
 			var value = $(this).val();
@@ -279,41 +303,10 @@ body {
 									</form>
 								</div>
 								<!--右侧图片显示 可以使用循环除以4求余的办法fore显示-->
-								<div class="col-md-2 column">
-									<a id="#panel-10" href="javascript:void(0);"
-										onclick="show(this);"> <img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-										<p>
-											描述： <br /> 地点 <br /> 价格
-										</p>
-									</a> <img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-								</div>
-								<div class="col-md-2 column">
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-								</div>
-								<div class="col-md-2 column">
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-								</div>
-								<div class="col-md-2 column">
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-									<img alt="140x140"
-										src="http://cdn.ibootstrap.cn/lorempixel.com/140/140/default.jpg" />
-									<p>123456</p>
-								</div>
+								<div class="col-md-2 column" id="content1"></div>
+								<div class="col-md-2 column" id="content2"></div>
+								<div class="col-md-2 column" id="content3"></div>
+								<div class="col-md-2 column" id="content4"></div>
 								<div class="col-md-12 column" style="text-align: center;">
 									<ul class="pagination">
 										<!--fore循环 ajax异步传输-->
