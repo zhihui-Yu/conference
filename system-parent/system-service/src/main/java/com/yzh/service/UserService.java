@@ -2,11 +2,33 @@ package com.yzh.service;
 
 import java.util.List;
 
+import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.User;
 
 public interface UserService {
+	
+	/**
+	 * 找用户对应的预约信息
+	 * @param uname
+	 * @return
+	 */
+	List<Approve> selApproveByUid(String uname,int pageNum,int pageSize);
+	
+	/**
+	 * 找用户名
+	 * @param id
+	 * @return
+	 */
+	String selNameUserById(int id);
+	
+	/**
+	 * 插入申请记录
+	 * @param app
+	 * @return
+	 */
+	int insApprove(Approve app);
 	
 	/**
 	 * 删除指定用户的爱好

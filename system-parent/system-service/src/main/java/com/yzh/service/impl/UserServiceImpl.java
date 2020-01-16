@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.yzh.dao.mapper.UserMapper;
+import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.User;
@@ -59,6 +60,21 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int delUserFav(int uid) {
 		return userMapper.delUserFav(uid);
+	}
+
+	@Override
+	public int insApprove(Approve app) {
+		return userMapper.insApprove(app);
+	}
+
+	@Override
+	public String selNameUserById(int id) {
+		return userMapper.selNameUserById(id);
+	}
+
+	@Override
+	public List<Approve> selApproveByUid(String uname,int pageNum,int pageSize) {
+		return userMapper.selApproveByUid(uname, pageNum, pageSize);
 	}
 
 }

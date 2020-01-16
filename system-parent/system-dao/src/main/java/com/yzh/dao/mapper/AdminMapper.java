@@ -15,6 +15,15 @@ import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface AdminMapper {
+	
+	/**
+	 * 查找相应cid的会议信息
+	 * @param cid
+	 * @return
+	 */
+	@Select("select * from confer_infor where cid = #{0}")
+	ConferInfor selConferByCid(int cid);
+	
 	/**
 	 * 查找管理员
 	 * @param admin
@@ -58,8 +67,15 @@ public interface AdminMapper {
 	 * 查找所有的会议室信息
 	 * @return
 	 */
-	@Select("select * from confer_infor")
-	List<ConferInfor> selAllConferInfor();
+	@Select("select * from confer_infor limit #{0},#{1}")
+	List<ConferInfor> selAllConferInfor(int first,int last);
+	
+	/**
+	 * 查找会议室信息总数
+	 * @return
+	 */
+	@Select("select count(*) from confer_infor;")
+	int selConferInfoCount();
 	
 	/**
 	 * 删除会议室信息
@@ -110,7 +126,7 @@ public interface AdminMapper {
 	 * @param name
 	 * @return
 	 */
-	@Select("select * from user where username = #{0}")
+	@Select("select * from user where username like %#{0}%")
 	List<User> selUserByName(String name);
 	
 	/**

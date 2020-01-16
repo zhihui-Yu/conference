@@ -7,12 +7,38 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.User;
 
 public interface UserMapper {
+
+	/**
+	 * 找用户对应的预约信息
+	 * @param uname
+	 * @return
+	 */
+	@Select("select * from approve where uname = #{0} limit #{1},#{2}")
+	List<Approve> selApproveByUid(String uname,int pageNum,int pageSize);
 	
+	/**
+	 * 找用户名
+	 * @param id
+	 * @return
+	 */
+	@Select("select username from user where uid = #{0}")
+	String selNameUserById(int id);
+	
+	/**
+	 * 插入申请记录
+	 * @param app
+	 * @return
+	 */
+	@Insert("insert into approve values (default,#{uname},#{cname},#{aname},#{time},#{money}"
+			+ ",#{status},#{comm})")
+	int insApprove(Approve app);
+		
 	/**
 	 * 删除指定用户的爱好
 	 * @param uid 用户id

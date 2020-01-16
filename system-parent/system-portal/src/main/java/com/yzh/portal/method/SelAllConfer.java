@@ -8,10 +8,10 @@ import com.yzh.portal.dto.Confer;
 import com.yzh.service.AdminService;
 
 public class SelAllConfer {
-	public static List<Confer> selAllConfer(AdminService adminServiceImpl, List<Confer> confer){
+	public static List<Confer> selAllConfer(AdminService adminServiceImpl, List<Confer> confer,int first,int last){
 		String msg = null;
 		//查找会议室
-		List<ConferInfor> conferInfors = adminServiceImpl.selAllConferInfor();
+		List<ConferInfor> conferInfors = adminServiceImpl.selAllConferInfor(first, last);
 		if(conferInfors != null){
 			for (int i = 0; i < conferInfors.size(); i++) {
 				msg = "查找成功";

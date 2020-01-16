@@ -85,12 +85,12 @@ public class AdminController {
 	 */
 	@RequestMapping("searchConfer")
 	@ResponseBody
-	public void searchConfer(HttpServletRequest req, HttpServletResponse res, String conferName) throws IOException {
+	public void searchConfer(HttpServletRequest req, HttpServletResponse res, String conferName,int first,int last) throws IOException {
 		List<Confer> confer = new ArrayList<Confer>();
 		// 查找conferInfor
 		// 名字为空显示所有的会议室信息
 		if(conferName == ""){
-			confer = SelAllConfer.selAllConfer(adminServiceImpl, confer);
+			confer = SelAllConfer.selAllConfer(adminServiceImpl, confer, first, last);
 		}else{
 			//不为空查找信息
 			Confer c = new Confer();

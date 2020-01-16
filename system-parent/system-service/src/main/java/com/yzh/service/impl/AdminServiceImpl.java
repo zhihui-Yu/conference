@@ -71,8 +71,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<ConferInfor> selAllConferInfor() {
-		return adminMapper.selAllConferInfor();
+	public List<ConferInfor> selAllConferInfor(int first,int last) {
+		return adminMapper.selAllConferInfor(first, last);
 	}
 
 	@Override
@@ -118,6 +118,16 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int updAdminPassword(Admin admin) {
 		return adminMapper.updAdminPassword(admin);
+	}
+
+	@Override
+	public int selConferInfoCount() {
+		return adminMapper.selConferInfoCount();
+	}
+
+	@Override
+	public ConferInfor selConferByCid(int cid) {
+		return adminMapper.selConferByCid(cid);
 	}
 
 }

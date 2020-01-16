@@ -7,6 +7,8 @@
 	String imgPath = basePath + "/img/";
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+%>
 <!DOCTYPE html>
 <html>
 
@@ -17,6 +19,9 @@
 <link rel="stylesheet" href=<%=cssPath + "bootstrap.min.css"%>>
 <script src='<%=jsPath + "jquery-1.9.1.js"%>'></script>
 <script src=<%=jsPath + "bootstrap.min.js"%>></script>
+<script src=<%=jsPath + "conferdetail.js"%>></script>
+<script src=<%=jsPath + "orderConfer.js"%>></script>
+<script src=<%=jsPath + "approveInfo.js"%>></script>
 <style type="text/css">
 html {
 	position: relative;
@@ -36,32 +41,109 @@ body {
 	height: 50px;
 	background-color: #f5f5f5;
 }
+.on{
+	color : black;
+}
 </style>
 <script type="text/javascript">
-	$(function() {
-		//请求会议室数据
-		$.post("conferInfo",{},function(data){
-			//将json字符串转换为json数组
-			var confer = JSON.parse(data);
-			var str = "";
-			for(var i = 0; i < confer.length; i++){
-				str = '<a id="#panel-10" href="javascript:void(0);" onclick="show(this);">'
-					+'<img alt="140x140" style="width:140px;height:140px" src="'+confer[i].img[0].path +'" /> ' 
-					+'<br />描述 '+ confer[i].ci.conferName
-					+'<br />可容纳人数 '+ confer[i].ci.peoCount
-					+'<br />价格 '+ confer[i].ci.price
-					+'</a>';
-				if(i%4 == 0){
-					$("#content1").append(str);
-				} else if(i%4 == 1) {
-					$("#content2").append(str);
-				} else if(i%4 == 2) {
-					$("#content3").append(str);
-				} else if(i%4 == 3) {
-					$("#content4").append(str);
+	
+		//获取当前页数
+		function getNextOrPrev(obj){
+			//获取单前选中的节点
+			var node = $(obj).parent().parent().children(".on");
+			//获取当前页数
+			var pages = node.children("a").html();
+			//获取最后一页的页数
+			var html = node.parent().children().last().prev().children("a").html();
+			//在查询范围内则执行查询
+			if($(obj).html() == "Next"){
+				//判断是不是 小于最大值
+				if(node.children("a").html() !=  html){
+					//将on移到下一个
+					node.next().addClass("on");
+					//删除原来的on
+					node.removeAttr("class");
+					//查找信息
+					getConfer(pages*8,8);
+				} else {
+					alert("已经到尾巴了");
+				}
+			} else {
+				//判断是不是大于最小值
+				if(node.children("a").html() != 1){
+					//将on移到上一个
+					node.prev().addClass("on");
+					//删除原来的on
+					node.removeAttr("class");
+					//查找信息
+					getConfer((pages-1-1)*8,8);
+				} else {
+					alert("已经到头了");
 				}
 			}
-		});
+			
+		}
+		function getInfo(obj){
+			//清除所有on 在添加在当前选的
+			$(obj).parent().parent().children(".on").each(function(){
+				$(this).removeAttr("class");
+			})
+			$(obj).parent().addClass("on");
+			
+			var page = $(obj).html();
+			//点击数字则跳转相应位置 否则
+			getConfer((page-1)*8,8);
+		}
+		function getConfer(first,last){
+			var count;
+			//请求会议室数据
+			$.ajax({ url: "conferInfo",
+				async: false,//改为同步方式
+				type: "POST",
+				data: {first:first,last:last},
+				success: function (data) {
+						//将json字符串转换为json数组
+						var confer = JSON.parse(data);
+						var str = "";
+						$("#content1").html(str);$("#content2").html(str);$("#content3").html(str);$("#content4").html(str);
+						for(var i = 0; i < confer.length; i++){
+							str = '<a id="#panel-10" href="javascript:void(0);" onclick="Jump(this);">'
+								+'<img alt="140x140" style="width:140px;height:140px" src="'+confer[i].img[0].path +'" /> ' 
+								+'<br />描述 '+ confer[i].ci.conferName
+								+'<br />可容纳人数 '+ confer[i].ci.peoCount
+								+'<br />价格 '+ confer[i].ci.price
+								+'<input type="hidden" value='+confer[i].ci.cid+' />'
+								+'</a>';
+							if(i%4 == 0){
+								$("#content1").append(str+"<br/><br/>");
+							} else if(i%4 == 1) {
+								$("#content2").append(str+"<br/><br/>");
+							} else if(i%4 == 2) {
+								$("#content3").append(str+"<br/><br/>");
+							} else if(i%4 == 3) {
+								$("#content4").append(str+"<br/><br/>");
+							}
+						}
+						count = confer[0].msg;
+					} 
+				});
+			return count;
+		}
+	$(function() {
+		//页面加载后显示的会议室信息
+		var count = getConfer(0,8);
+		//加载后显示可点击的页数
+		$("#conferSize").append('<li><a href="javascript:void(0);" onclick="getNextOrPrev(this);">Prev</a></li>');
+		for(var i = 1;i < (count/8 == 0?1:(count/8)+1); i++){
+			if( i == 1){
+				var str = '<li class="on"><a href="javascript:void(0);" onclick="getInfo(this);">'+i+'</a></li>';
+			} else {
+				var str = '<li><a href="javascript:void(0);" onclick="getInfo(this);">'+i+'</a></li>';
+			}
+			$("#conferSize").append(str);
+		}
+		$("#conferSize").append('<li><a href="javascript:void(0);" onclick="getNextOrPrev(this);">Next</a></li>');
+		
 		
 		//修改信息之爱好默认选定
 		$("input:checkbox").each(function() {
@@ -195,9 +277,11 @@ body {
 							<li style="float: right"><a href="login">登入</a></li>
 						</c:if>
 						<c:if test="${!empty users }">
-							<li><a href="#panel-2" data-toggle="tab">我的会议</a></li>
-							<li><a href="#panel-3" data-toggle="tab">会议审核</a></li>
-							<li><label style="margin: 11px 0 0 740px;">欢迎&nbsp;${users.user.username }</label>
+							<li><a id="#panel-2" href="javascript:void(0);"
+										onclick="show(this);" data-toggle="tab">我的会议</a></li>
+							<li><a id="#panel-3" href="javascript:void(0);"
+										onclick="approveInfo(this);" data-toggle="tab">会议审核</a></li>
+							<li><label style="margin: 11px 0 0 740px;">欢迎&nbsp;<span id="uname">${users.user.username }</span></label>
 							<li>
 							<li class="dropdown pull-right"><a data-toggle="dropdown"
 								class="dropdown-toggle">个人信息<strong class="caret"></strong></a>
@@ -308,15 +392,8 @@ body {
 								<div class="col-md-2 column" id="content3"></div>
 								<div class="col-md-2 column" id="content4"></div>
 								<div class="col-md-12 column" style="text-align: center;">
-									<ul class="pagination">
+									<ul class="pagination" id="conferSize">
 										<!--fore循环 ajax异步传输-->
-										<li><a href="#">Prev</a></li>
-										<li><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">Next</a></li>
 									</ul>
 								</div>
 							</div>
@@ -445,20 +522,7 @@ body {
 											<th>操作</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>TB - Monthly</td>
-											<td>01/04/2012</td>
-											<td>Default</td>
-											<td>1</td>
-											<td>TB - Monthly</td>
-											<td>01/04/2012</td>
-											<td>Default</td>
-											<td><a id="#panel-4" href="javascript:void(0);"
-												onclick="show(this);">修改</a> <a href="javascript:void(0);"
-												onclick="del(this);">删除</a></td>
-										</tr>
+									<tbody id="approveInfo">
 									</tbody>
 								</table>
 							</div>
@@ -581,11 +645,45 @@ body {
 							</div>
 						</div>
 						<!--选项卡10的内容 会议室详情页面-->
-						<div class="tab-pane " id="panel-10" style="margin-top: 20px;">
-							<div class="col-md-12 column"
-								style="padding: 80px 400px 0 350px;">
-								<label>会议室详情界面 准备下订单</label>
-								<button type="button" class="btn btn-default" id="submitBackMsg"
+						<div class="tab-pane" id="panel-10" style="margin-top: 20px;">
+							<div class="col-md-6 column">
+							<!--幻灯片-->
+							<div class="carousel slide" id="carousel-627585">
+								<ol class="carousel-indicators">
+									<li class="active" data-slide-to="0" data-target="#carousel-627584" id="detailOl"></li>
+								</ol>
+								<div class="carousel-inner">
+									<div class="item active" id="detailImg">
+										<img style="width: 100%; height: 400px;" />
+										<!-- 图片上添加文字 -->
+										<!-- <div class="carousel-caption">
+											<h4>First Thumbnail label</h4>
+											<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+												quam. Donec id elit non mi porta gravida at eget metus.
+												Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+										</div> -->
+									</div>
+								</div>
+								<a class="left carousel-control" href="#carousel-627584"data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left"></span></a>
+								<a class="right carousel-control" href="#carousel-627584" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right"></span></a>
+							</div>
+							</div>
+							<div class="col-md-6 column" >
+								<div class="col-sm-2 column" style="line-height: 30px; text-align: right;">
+									<!-- <br/>
+									<label>会议室名 ：</label> <br /> <label>大小 ：</label> <br /> <label>价格
+										：</label> <br /> <label>可容纳人数 ：</label> <br /> <label>地址 ：</label> <br />
+									<label>联系人 ：</label> <br /> <label>联系电话 ：</label> <br /> <label>状态
+										：</label> <br /><label>简介 :</label> <br /> -->
+								</div>
+								<div id="info" class="col-sm-10 column" style="line-height: 34px; text-align: left;">
+									<span
+										style="margin-left: 320px;"> <a href="main">返回 >></a>
+									</span>
+								</div>
+								<button type="button" class="btn btn-default" onclick="orderConfer();"
 									style="width: 120px; margin: 25px 0 0 130px;">预定</button>
 							</div>
 						</div>

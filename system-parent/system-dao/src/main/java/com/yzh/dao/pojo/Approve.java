@@ -4,40 +4,46 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Approve {
 	
 	private int id;
-	private int uid;
-	private int cid;
-	private int aid;
+	private String uname;
+	private String cname;
+	private String aname;
+	//接收参数的格式
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	//输出参数的格式
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date time;
 	private double money;
 	private String status;
 	private String comm;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUid() {
-		return uid;
+	public String getUname() {
+		return uname;
 	}
-	public void setUid(int uid) {
-		this.uid = uid;
+	public void setUname(String uname) {
+		this.uname = uname;
 	}
-	public int getCid() {
-		return cid;
+	public String getCname() {
+		return cname;
 	}
-	public void setCid(int cid) {
-		this.cid = cid;
+	public void setCname(String cname) {
+		this.cname = cname;
 	}
-	public int getAid() {
-		return aid;
+	public String getAname() {
+		return aname;
 	}
-	public void setAid(int aid) {
-		this.aid = aid;
+	public void setAname(String aname) {
+		this.aname = aname;
 	}
 	public Date getTime() {
 		return time;
@@ -63,7 +69,6 @@ public class Approve {
 	public void setComm(String comm) {
 		this.comm = comm;
 	}
-	
 	
 	
 }

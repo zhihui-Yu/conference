@@ -102,7 +102,7 @@ public class UserLoginController {
 						users.setFav(favs);
 						users.setUser(user);
 						session.setAttribute("users", users);
-						return "redirect:/main";
+						return "redirect:/pages/main";
 					}
 				}
 			}
