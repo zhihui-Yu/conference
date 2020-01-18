@@ -1,13 +1,111 @@
 package com.yzh.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.yzh.dao.pojo.Approve;
+import com.yzh.dao.pojo.ConferInfor;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
+import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface UserService {
+	
+	/**
+	 * 计算相应条件的confer 的长度
+	 * 
+	 * @param address   地址
+	 * @param size		大小
+	 * @param peoCount	可容纳人数
+	 * @param time		时间
+	 * @return
+	 */
+	int selConferInfoCount(String address, int size, String peoCount, String time);
+	
+	/**
+	 * 查找相应条件的confer
+	 * 
+	 * @param address	地址
+	 * @param size		大小
+	 * @param peoCount	可容纳人数
+	 * @param time	  	时间
+	 * @param pageNum 	页码
+	 * @param pageSize 	页面大小
+	 * @return
+	 */
+	List<ConferInfor> selConferInfo(String address, int size, String peoCount, String time,int pageNum, int pageSize);
+	
+	
+	/**
+	 * 查找可容纳人数
+	 * @return
+	 */
+	List<PeoNum> selPeoNum();
+	
+	/**
+	 * 查找对应信息的未完成订单
+	 * @param name
+	 * @return
+	 */
+	List<Approve> selApproveByName(String name, int pageNum, int pageSize);
+	
+	/**
+	 * 查询对应信息的所有订单
+	 * @param name
+	 * @return
+	 */
+	List<Approve> selAllApproveByName(String name, int pageNum, int pageSize);
+	
+	/**
+	 * 找用户对应的全部信息的总数
+	 * @param name 会议室名
+	 * @return
+	 */
+	int selAllCountByName(String name);
+	
+	/**
+	 * 找用户对应的预约信息的总数
+	 * @param name 会议室名
+	 * @return
+	 */
+	int selCountByName(String name);
+	
+	/**
+	 * 找用户对应的预约信息的总数
+	 * @param uname
+	 * @return
+	 */
+	int selAllApproveCount();
+	
+	/**
+	 * 找用户对应的预约信息为完成的总数
+	 * @param uname
+	 * @return
+	 */
+	int selApproveCount();
+	
+	/**
+	 * 找用户对应的预约信息
+	 * @param uname
+	 * @return
+	 */
+	List<Approve> selAllApproveByUid(String uname,int pageNum,int pageSize);
+	
+	/**
+	 * 修改预约时间
+	 * @param id
+	 * @param date
+	 * @return
+	 */
+	int updAppTimeById(int id,Date date);
+	
+	/**
+	 * 删除预约信息
+	 * @param id
+	 * @return
+	 */
+	int delApproveByid(int id);
 	
 	/**
 	 * 找用户对应的预约信息

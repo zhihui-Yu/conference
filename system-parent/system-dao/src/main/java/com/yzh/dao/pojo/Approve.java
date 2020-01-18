@@ -13,12 +13,23 @@ public class Approve {
 	private String cname;
 	private String aname;
 	//接收参数的格式
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//输出参数的格式
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date time;
+	//接收参数的格式
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	//输出参数的格式
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date time;
+	private Date dealtime;
 	private double money;
 	private String status;
+	public Date getDealtime() {
+		return dealtime;
+	}
+	public void setDealtime(Date dealtime) {
+		this.dealtime = dealtime;
+	}
 	private String comm;
 	
 	public int getId() {

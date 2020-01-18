@@ -93,6 +93,8 @@ public class UserLoginController {
 				if(code.equals(words)){
 					//允许登入
 					if(user.getStatus()==0){
+						// 将可查找人数放入session
+						session.setAttribute("peoNum", userServiceImpl.selPeoNum());
 						//查找 所有爱好存入session 以便界面查找
 						List<Favorite> favorite = userServiceImpl.selAllFavorite();
 						session.setAttribute("favorite", favorite);

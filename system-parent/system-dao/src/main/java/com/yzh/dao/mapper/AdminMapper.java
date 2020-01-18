@@ -126,7 +126,7 @@ public interface AdminMapper {
 	 * @param name
 	 * @return
 	 */
-	@Select("select * from user where username like %#{0}%")
+	@Select("select * from user where username like '%'#{0}'%'")
 	List<User> selUserByName(String name);
 	
 	/**
