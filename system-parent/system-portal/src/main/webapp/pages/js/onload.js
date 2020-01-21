@@ -1,4 +1,17 @@
-$(function() {
+
+//充值
+function submitMoney(){
+	var money = $("#addmoney").val();
+	if(money == ""){
+		alert("不能为空")
+	} else {
+		$.post("addMoney",{money:money},function(data){
+			alert(data);
+			$("#addmoney").val("");
+		});
+	}
+}
+	$(function() {
 		//页面加载后显示的会议室信息
 		var count = getConfer(0, 8);
 		var name = "getConfer";

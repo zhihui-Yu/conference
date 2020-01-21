@@ -9,7 +9,6 @@ public class ConferInfor {
 	private String address;
 	private String people;
 	private String tel;
-	private String status;
 	private String comm;
 	
 	public String getComm() {
@@ -18,17 +17,12 @@ public class ConferInfor {
 	public void setComm(String comm) {
 		this.comm = comm;
 	}
+
 	@Override
 	public String toString() {
 		return "ConferInfor [cid=" + cid + ", conferName=" + conferName + ", size=" + size + ", price=" + price
-				+ ", peoCount=" + peoCount + ", address=" + address + ", people=" + people + ", tel=" + tel
-				+ ", status=" + status + "]";
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
+				+ ", peoCount=" + peoCount + ", address=" + address + ", people=" + people + ", tel=" + tel + ", comm="
+				+ comm + "]";
 	}
 	public String getAddress() {
 		return address;

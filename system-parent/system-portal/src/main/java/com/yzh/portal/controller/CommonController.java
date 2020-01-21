@@ -21,6 +21,7 @@ import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
 import com.yzh.dao.pojo.Img;
 import com.yzh.portal.dto.Confer;
+import com.yzh.portal.dto.Users;
 import com.yzh.portal.method.ResponseString;
 import com.yzh.service.AdminService;
 import com.yzh.service.UserService;
@@ -35,6 +36,7 @@ public class CommonController {
 	@Resource
 	private AdminService adminServiceImpl;
 	
+	String uname = "";
 	String msg = "";
 	int count = 0;
 	
@@ -96,7 +98,7 @@ public class CommonController {
 	@RequestMapping("selAllAppByName")
 	@ResponseBody
 	public void selAllAppByName(String name, String pageNum, String pageSize, HttpServletResponse res) throws IOException{
-		List<Approve> approves = userServiceImpl.selAllApproveByName(name==null?"":name, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+		List<Approve> approves = userServiceImpl.selAllApproveByName(name==null?"":name, Integer.parseInt(pageNum), Integer.parseInt(pageSize),uname);
 		ObjectMapper mapper = new ObjectMapper();
 		msg = mapper.writeValueAsString(approves);
 		ResponseString.respongString(res, msg);
@@ -111,7 +113,7 @@ public class CommonController {
 	@RequestMapping("selAppByName")
 	@ResponseBody
 	public void selAppByName(String name, String pageNum, String pageSize, HttpServletResponse res) throws IOException{
-		List<Approve> approves = userServiceImpl.selApproveByName(name==null?"":name, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+		List<Approve> approves = userServiceImpl.selApproveByName(name==null?"":name, Integer.parseInt(pageNum), Integer.parseInt(pageSize),uname);
 		ObjectMapper mapper = new ObjectMapper();
 		msg = mapper.writeValueAsString(approves);
 		ResponseString.respongString(res, msg);
@@ -126,7 +128,7 @@ public class CommonController {
 	@RequestMapping("selCount")
 	@ResponseBody
 	public void selCount(String name, HttpServletResponse res) throws IOException{
-		int count = userServiceImpl.selCountByName(name==null?"":name);
+		int count = userServiceImpl.selCountByName(name==null?"":name,uname);
 		ResponseString.respongString(res, String.valueOf(count));
 	}
 
@@ -139,7 +141,7 @@ public class CommonController {
 	@RequestMapping("selAllCount")
 	@ResponseBody
 	public void selAllCount(String name, HttpServletResponse res) throws IOException{
-		int count = userServiceImpl.selAllCountByName(name==null?"":name);
+		int count = userServiceImpl.selAllCountByName(name==null?"":name,uname);
 		ResponseString.respongString(res, String.valueOf(count));
 	}
 	
@@ -151,7 +153,7 @@ public class CommonController {
 	@RequestMapping("getCount")
 	@ResponseBody
 	public void getCount(HttpServletResponse res) throws IOException{
-		int count = userServiceImpl.selApproveCount();
+		int count = userServiceImpl.selApproveCount(uname);
 		ResponseString.respongString(res, String.valueOf(count));
 	}
 	
@@ -163,14 +165,14 @@ public class CommonController {
 	@RequestMapping("getAllCount")
 	@ResponseBody
 	public void getAllCount(HttpServletResponse res) throws IOException{
-		int count = userServiceImpl.selAllApproveCount();
+		int count = userServiceImpl.selAllApproveCount(uname);
 		ResponseString.respongString(res, String.valueOf(count));
 	}
 	
 	@RequestMapping("showAllApprove")
 	@ResponseBody
 	public void showAllApprove(String uname,String pageNum,String pageSize,HttpServletResponse res) throws IOException{
-		List<Approve> approves = userServiceImpl.selAllApproveByUid(uname, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+		List<Approve> approves = userServiceImpl.selAllApproveByUname(uname, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
 		if(approves.size() < 1){
 			msg = "无记录";
 		} else {
@@ -235,7 +237,7 @@ public class CommonController {
 	@RequestMapping("approveInfo")
 	@ResponseBody
 	public void approveInfo(String uname,String pageNum,String pageSize,HttpServletResponse res) throws IOException{
-		List<Approve> approves = userServiceImpl.selApproveByUid(uname, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+		List<Approve> approves = userServiceImpl.selApproveByUname(uname, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
 		if(approves.size() < 1){
 			msg = "无预约信息";
 		} else {
@@ -274,6 +276,8 @@ public class CommonController {
 			app.setStatus("待审核");
 			//插入数据
 			int index = userServiceImpl.insApprove(app);
+			//将预约的时间存在表里
+			userServiceImpl.insUsed(Integer.parseInt(id), sdf.parse(date));
 			//判断是不是插入成功
 			if(index > 0){
 				msg = "预约成功";
@@ -344,6 +348,13 @@ public class CommonController {
 	@RequestMapping("conferInfo")
 	@ResponseBody
 	public void conferInfo(HttpServletRequest req,HttpServletResponse res,int first,int last) throws IOException{
+		
+		HttpSession session = req.getSession();
+		Users users = (Users)session.getAttribute("users");
+		if(users != null){
+			uname = users.getUser().getUsername();
+		}
+		
 		//创建一个存放所有会议室信息的对象
 		List<Confer> confer = new ArrayList<>();
 		//查找所有的会议室信息

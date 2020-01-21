@@ -2,8 +2,8 @@ package com.yzh.dao.pojo;
 
 public class Discuss {
 	private int id;
-	private int uid;
-	private int aid;
+	private String uname;
+	private String aname;
 	private String usay;
 	private String asay;
 	public int getId() {
@@ -12,17 +12,17 @@ public class Discuss {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUid() {
-		return uid;
+	public String getUname() {
+		return uname;
 	}
-	public void setUid(int uid) {
-		this.uid = uid;
+	public void setUname(String uname) {
+		this.uname = uname;
 	}
-	public int getAid() {
-		return aid;
+	public String getAname() {
+		return aname;
 	}
-	public void setAid(int aid) {
-		this.aid = aid;
+	public void setAname(String aname) {
+		this.aname = aname;
 	}
 	public String getUsay() {
 		return usay;

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.yzh.dao.mapper.AdminMapper;
 import com.yzh.dao.pojo.Admin;
+import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
+import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Img;
 import com.yzh.dao.pojo.PeoNum;
@@ -40,20 +42,6 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.selPeoNum();
 	}
 
-	@Override
-	public ConferInfor selConferByName(String name) {
-		return adminMapper.selConferByName(name);
-	}
-
-	@Override
-	public List<User> selUserByName(String name) {
-		return adminMapper.selUserByName(name);
-	}
-
-	@Override
-	public List<User> selUser() {
-		return adminMapper.selUser();
-	}
 
 	@Override
 	public List<Fav> selFavByUid(int uid) {
@@ -76,8 +64,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int delConfer(String name) {
-		return adminMapper.delConfer(name);
+	public int delConfer(int cid) {
+		return adminMapper.delConfer(cid);
 	}
 
 	@Override
@@ -130,4 +118,114 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.selConferByCid(cid);
 	}
 
+	@Override
+	public List<Approve> selAllApprove(int pageNum, int pageSize) {
+		return adminMapper.selAllApprove(pageNum, pageSize);
+	}
+
+	@Override
+	public List<Approve> selApprove(int pageNum, int pageSize) {
+		return adminMapper.selApprove(pageNum, pageSize);
+	}
+
+	@Override
+	public int updApproveStatusById(String status, int id, String name) {
+		return adminMapper.updApproveStatusById(status, id, name);
+	}
+
+	@Override
+	public int updApproveCommById(String comm, int id) {
+		return adminMapper.updApproveCommById(comm, id);
+	}
+
+	@Override
+	public int selAllApproveCount() {
+		return adminMapper.selAllApproveCount();
+	}
+
+	@Override
+	public int selApproveCount() {
+		return adminMapper.selApproveCount();
+	}
+
+	@Override
+	public int selALLApproveByNameCount(String name) {
+		return adminMapper.selALLApproveByNameCount(name);
+	}
+
+	@Override
+	public List<Approve> selALLApproveByName(String name, int pageNum, int pageSize) {
+		return adminMapper.selALLApproveByName(name, pageNum, pageSize);
+	}
+
+	@Override
+	public int selApproveByNameCount(String name) {
+		return adminMapper.selApproveByNameCount(name);
+	}
+
+	@Override
+	public List<Approve> selApproveByName(String name, int pageNum, int pageSize) {
+		return adminMapper.selApproveByName(name, pageNum, pageSize);
+	}
+
+	@Override
+	public List<Discuss> selMsgByName(int pageNum, int pageSize, String name) {
+		return adminMapper.selMsgByName(pageNum, pageSize, name);
+	}
+
+	@Override
+	public int selMsgCountByName(String name) {
+		return adminMapper.selMsgCountByName(name);
+	}
+
+	@Override
+	public List<Discuss> selMsg(int pageNum, int pageSize) {
+		return adminMapper.selMsg(pageNum, pageSize);
+	}
+
+	@Override
+	public int selMsgCount() {
+		return adminMapper.selMsgCount();
+	}
+
+	@Override
+	public int updDiscuss(int id, String aname, String asay) {
+		return adminMapper.updDiscuss(id, aname, asay);
+	}
+
+	@Override
+	public int selUserCountByName(String name) {
+		return adminMapper.selUserCountByName(name);
+	}
+
+	@Override
+	public List<User> selUserByName(String name, int pageNum, int pageSize) {
+		return adminMapper.selUserByName(name, pageNum, pageSize);
+	}
+
+	@Override
+	public List<User> selUser(int pageNum, int pageSize) {
+		return adminMapper.selUser(pageNum, pageSize);
+	}
+
+	@Override
+	public int selUserCount() {
+		return adminMapper.selUserCount();
+	}
+
+	@Override
+	public int selConferInfoCountByName(String name) {
+		return adminMapper.selConferInfoCountByName(name);
+	}
+
+	@Override
+	public List<ConferInfor> selConferByName(String name, int first, int last) {
+		return adminMapper.selConferByName(name, first, last);
+	}
+
+	@Override
+	public ConferInfor selOneConferByName(String name) {
+		return adminMapper.selOneConferByName(name);
+	}
+	
 }

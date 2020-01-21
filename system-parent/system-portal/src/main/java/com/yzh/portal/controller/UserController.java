@@ -7,15 +7,18 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.User;
 import com.yzh.portal.dto.Users;
+import com.yzh.portal.method.ResponseString;
 import com.yzh.service.UserService;
 
 @Controller()
@@ -23,6 +26,92 @@ import com.yzh.service.UserService;
 public class UserController {
 	@Resource
 	private UserService userServiceImpl;
+	
+	String msg = "";
+	
+	/**
+	 * 用户详细信息页面
+	 * @param req
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("selUser")
+	@ResponseBody
+	public void selUser(HttpServletRequest req, HttpServletResponse res) throws IOException{
+		HttpSession session = req.getSession();
+		Users users = (Users)session.getAttribute("users");
+		List<Fav> favs = userServiceImpl.selFavByUid(users.getUser().getUid());
+		users.setFav(favs);
+		users.setUser(userServiceImpl.selUser(users.getUser()));
+		msg = new ObjectMapper().writeValueAsString(users);
+		ResponseString.respongString(res, msg);
+	}
+	
+	
+	/**
+	 * 充值
+	 * @param req
+	 * @param money
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("addMoney")
+	@ResponseBody
+	public void addMoney(HttpServletRequest req, String money, HttpServletResponse res) throws IOException{
+		HttpSession session = req.getSession();
+		Users users = (Users)session.getAttribute("users");
+		//没登入 先登入
+		if(users == null){
+			msg = "请先登入";
+		} else {
+			double mon = Double.parseDouble(money);
+			//增加金额
+			int index = userServiceImpl.updUserMoneyAdd(users.getUser().getUid(), mon);
+			if(index > 0){
+				msg = "充值成功";
+			} else {
+				msg = "系统出现问题";
+			}
+		}
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 缴费
+	 * @param req
+	 * @param needMoney
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("payMoney")
+	@ResponseBody
+	public void payMoney(HttpServletRequest req,int id, String needMoney, HttpServletResponse res) throws IOException{
+		HttpSession session = req.getSession();
+		Users users = (Users)session.getAttribute("users");
+		//没登入 先登入
+		if(users == null){
+			msg = "请先登入";
+		} else {
+			//判断账户余额是不是足够
+			double money = users.getUser().getMoney();
+			double mon = Double.parseDouble(needMoney);
+			if(money >= mon){
+				//减少用的金额
+				int index = userServiceImpl.updUserMoneyDes(users.getUser().getUid(), mon);
+				if(index > 0){
+					//修改订单状态
+					userServiceImpl.updApproveStatus(id, "待通过");
+					msg = "付款成功";
+				} else {
+					msg = "系统出现问题";
+				}
+			} else {
+				msg = "";
+			}
+		}
+		
+		ResponseString.respongString(res, msg);
+	}
 	
 	/**
 	 * 反馈信息

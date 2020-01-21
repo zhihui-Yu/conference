@@ -16,10 +16,5 @@
 	<script
 		src=<%=application.getContextPath() + "/pages/js/jquery-1.9.1.js"%>></script>
 	<script src=<%=application.getContextPath() + "/pages/js/menu.js"%>></script>
-	<script>
-		//JavaScript代码区域
-		layui.use('element', function() {
-			var element = layui.element;
-		});
-	</script>
+
 </head>

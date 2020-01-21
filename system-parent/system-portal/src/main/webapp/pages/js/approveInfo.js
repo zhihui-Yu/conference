@@ -36,8 +36,11 @@ function insetApprove(data){
 		if(approves[i].aname == null){
 			approves[i].aname ="";
 		}
+		var sb="";
 		if(approves[i].status == "待缴费"){
-			approves[i].status ='<a href="javascript:void(0);" onclick="showPay(); >待缴费</a>';
+			sb ='<a href="javascript:void(0);" onclick="showPay('+approves[i].money+','+approves[i].id+');" >缴费</a>';
+		} else if(approves[i].status == "待审核"){
+			sb ='<a href="javascript:void(0);" onclick="alter(this,'+approves[i].id+')" >修改</a>';
 		}
 		
 		str += "<tr>"
@@ -45,12 +48,12 @@ function insetApprove(data){
 			+'<td>'+approves[i].uname+'</td>'
 			+'<td>'+approves[i].cname+'</td>'
 			+'<td>'+approves[i].time+'</td>'
-			+'<td id="needMoney">'+approves[i].money+'</td>'
+			+'<td>'+approves[i].money+'</td>'
 			+'<td>'+approves[i].status+'</td>'
 			+'<td>'+approves[i].dealtime+'</td>'
 			+'<td>'+approves[i].aname+'</td>'
 			+'<td>'+approves[i].comm+'</td>'
-			+'<td><a href="javascript:void(0);" onclick="alter(this,'+approves[i].id+')">修改</a>'
+			+'<td>'+sb
 			+'&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="del('+approves[i].id+');">取消</a></td>';	 
 		+"</tr>";
 	}
@@ -96,13 +99,22 @@ function del(obj){
 	})
 }
 //触发缴费事件
-function showPay(){
+function showPay(obj,id){
+	//账户自己的余额
 	var money = $("#money").html();
-	var needMoney = $("#needMoney").html();
-	if(money < needMoney){
-		alert("余额不足请充值");
-	} else {
-		//请求支付
-	}
+	//需要的余额
+	
+	$.post("payMoney",{
+		needMoney:obj,
+		id:id
+	},function(data){
+		if(data == ""){
+			alert("余额不足请充值");
+		} else {
+			alert(data);
+			getApp(0,8)
+			display("getCount","#appInSize","getApp");
+		}
+	});
 	
 }

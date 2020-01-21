@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Approve> selApproveByUid(String uname,int pageNum,int pageSize) {
-		return userMapper.selApproveByUid(uname, pageNum, pageSize);
+	public List<Approve> selApproveByUname(String uname,int pageNum,int pageSize) {
+		return userMapper.selApproveByUname(uname, pageNum, pageSize);
 	}
 
 	@Override
@@ -91,38 +91,38 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Approve> selAllApproveByUid(String uname, int pageNum, int pageSize) {
-		return userMapper.selAllApproveByUid(uname, pageNum, pageSize);
+	public List<Approve> selAllApproveByUname(String uname, int pageNum, int pageSize) {
+		return userMapper.selAllApproveByUname(uname, pageNum, pageSize);
 	}
 
 	@Override
-	public int selAllApproveCount() {
-		return userMapper.selAllApproveCount();
+	public int selAllApproveCount(String uname) {
+		return userMapper.selAllApproveCount(uname);
 	}
 
 	@Override
-	public int selApproveCount() {
-		return userMapper.selApproveCount();
+	public int selApproveCount(String uname) {
+		return userMapper.selApproveCount(uname);
 	}
 
 	@Override
-	public List<Approve> selApproveByName(String name, int pageNum, int pageSize) {
-		return userMapper.selApproveByName(name, pageNum, pageSize);
+	public List<Approve> selApproveByName(String name, int pageNum, int pageSize, String uname) {
+		return userMapper.selApproveByName(name, pageNum, pageSize,uname);
 	}
 
 	@Override
-	public List<Approve> selAllApproveByName(String name, int pageNum, int pageSize) {
-		return userMapper.selAllApproveByName(name, pageNum, pageSize);
+	public List<Approve> selAllApproveByName(String name, int pageNum, int pageSize, String uname) {
+		return userMapper.selAllApproveByName(name, pageNum, pageSize,uname);
 	}
 
 	@Override
-	public int selAllCountByName(String name) {
-		return userMapper.selAllCountByName(name);
+	public int selAllCountByName(String name, String uname) {
+		return userMapper.selAllCountByName(name,uname);
 	}
 
 	@Override
-	public int selCountByName(String name) {
-		return userMapper.selCountByName(name);
+	public int selCountByName(String name, String uname) {
+		return userMapper.selCountByName(name,uname);
 	}
 
 	@Override
@@ -138,6 +138,26 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<ConferInfor> selConferInfo(String address, int size, String peoCount, String time, int pageNum, int pageSize) {
 		return userMapper.selConferInfo(address, size, peoCount, time, pageNum, pageSize);
+	}
+
+	@Override
+	public int insUsed(int cid, Date date) {
+		return userMapper.insUsed(cid, date);
+	}
+
+	@Override
+	public int updUserMoneyAdd(int uid, double moeny) {
+		return userMapper.updUserMoneyAdd(uid, moeny);
+	}
+
+	@Override
+	public int updUserMoneyDes(int uid, double moeny) {
+		return userMapper.updUserMoneyDes(uid, moeny);
+	}
+
+	@Override
+	public int updApproveStatus(int id, String status) {
+		return userMapper.updApproveStatus(id, status);
 	}
 
 }

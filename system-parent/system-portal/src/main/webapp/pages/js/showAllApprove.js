@@ -37,10 +37,11 @@ function insertAllApprove(data){
 		if(approves[i].aname == null){
 			approves[i].aname ="";
 		}
-		if(approves[i].status == "待缴费"){
-			approves[i].status ='<a href="javascript:void(0);" onclick="showPay(); >待缴费</a>';
+		var button = "";
+		if(approves[i].status!="待使用"){
+			button = "<button type='button' onclick = 'delRecord("
+				+ approves[i].id + ")'>删除记录</button>";
 		}
-		
 		str += "<tr>"
 			+'<td>'+(parseInt(i)+1)+'</td>'
 			+'<td>'+approves[i].uname+'</td>'
@@ -51,7 +52,7 @@ function insertAllApprove(data){
 			+'<td>'+approves[i].dealtime+'</td>'
 			+'<td>'+approves[i].aname+'</td>'
 			+'<td>'+approves[i].comm+'</td>'
-			+'<td><a href="javascript:void(0);" onclick="delRecord('+approves[i].id+')">删除记录</a>'
+			+'<td>'+button+'</td>'
 		+"</tr>";
 	}
 	$("#panel-2-table").append(str);

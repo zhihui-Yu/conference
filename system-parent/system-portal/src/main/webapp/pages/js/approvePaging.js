@@ -21,13 +21,12 @@ function display(url,id,name,cname){
 	var count = getCount(url,cname);
 	//显示页码
 	inShow(id,count,name);
-	
+	//tdTitle();
 }
 function inShow(id,count,name){
 	$(id).html("");
 	//加载后显示可点击的页数
 	
-	alert(count)
 	//一页不显示
 	if(count/8 == 0){
 		
@@ -46,3 +45,59 @@ function inShow(id,count,name){
 		$(id).append('<li><a href="javascript:void(0);" onclick="getNextOrPrev(this,'+name+');">Next</a></li>');
 	}
 }
+//获取当前页数
+function getNextOrPrev(obj,fun) {
+	//获取单前选中的节点
+	var node = $(obj).parent().parent().children(".on");
+	//获取当前页数
+	var pages = node.children("a").html();
+	//获取最后一页的页数
+	var html = node.parent().children().last().prev().children("a").html();
+	//在查询范围内则执行查询
+	if ($(obj).html() == "Next") {
+		//判断是不是 小于最大值
+		if (node.children("a").html() != html) {
+			//将on移到下一个
+			node.next().addClass("on");
+			//删除原来的on
+			node.removeAttr("class");
+			//查找信息
+			fun(pages * 8,8)
+			//eval(fun+"("+pages * 8+","+ 8+")")
+		} else {
+			alert("已经到尾巴了");
+		}
+	} else {
+		//判断是不是大于最小值
+		if (node.children("a").html() != 1) {
+			//将on移到上一个
+			node.prev().addClass("on");
+			//删除原来的on
+			node.removeAttr("class");
+			//查找信息
+			fun((pages - 2) * 8,8)
+			//eval(fun+"("+(pages - 1 - 1) * 8+","+ 8+")");
+		} else {
+			alert("已经到头了");
+		}
+	}
+}
+//跳转
+function getInfo(obj,fun) {
+	//清除所有on 
+	$(obj).parent().parent().children(".on").each(function() {
+		$(this).removeAttr("class");
+	})
+	//在添加在当前选的
+	$(obj).parent().addClass("on");
+	//获取当前页数
+	var page = $(obj).html();
+	//点击数字则跳转相应位置 否则
+	fun((page - 1) * 8, 8)
+}
+//解决表格超出问题
+function tdTitle(){
+    $('td').each(function(index,element){
+        $(element).attr('title',$(element).text());
+    });
+};

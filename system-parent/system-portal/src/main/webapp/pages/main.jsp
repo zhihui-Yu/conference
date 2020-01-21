@@ -27,6 +27,7 @@
 <script src=<%=jsPath + "onload.js"%>></script>
 <script src=<%=jsPath + "paging.js"%>></script>
 <script src=<%=jsPath + "selApp.js"%>></script>
+<script src=<%=jsPath + "self.js"%>></script>
 <script src=<%=jsPath + "approvePaging.js"%>></script>
 <script src=<%=jsPath + "selConferInfo.js"%>></script>
 
@@ -72,9 +73,9 @@ body {
 							<li style="float: right"><a href="login">登入</a></li>
 						</c:if>
 						<c:if test="${!empty users }">
-							<li><a id="#panel-2" href="javascript:void(0);"
+							<li><a id="#panel-2" href="javascript:void(0)"
 								onclick="showAllApprove(this)" data-toggle="tab">我的会议</a></li>
-							<li><a id="#panel-3" href="javascript:void(0);"
+							<li><a id="#panel-3" href="javascript:void(0)"
 								onclick="approveInfo(this);" data-toggle="tab">会议审核</a></li>
 							<li><label style="margin: 11px 0 0 740px;">欢迎&nbsp;<span
 									id="uname">${users.user.username }</span></label>
@@ -82,16 +83,16 @@ body {
 							<li class="dropdown pull-right"><a data-toggle="dropdown"
 								class="dropdown-toggle">个人信息<strong class="caret"></strong></a>
 								<ul class="dropdown-menu">
-									<li><a id="#panel-5" href="javascript:void(0);"
-										onclick="show(this);">查看个人信息</a></li>
-									<li><a id="#panel-6" href="javascript:void(0);"
+									<li><a id="#panel-5" href="javascript:void(0)"
+										onclick="showSel(this);">查看个人信息</a></li>
+									<li><a id="#panel-6" href="javascript:void(0)"
 										onclick="show(this);">修改密码</a></li>
-									<li><a id="#panel-7" href="javascript:void(0);"
+									<li><a id="#panel-7" href="javascript:void(0)"
 										onclick="show(this);">充值</a></li>
 									<li class="divider"></li>
-									<li><a id="#panel-8" href="javascript:void(0);"
+									<li><a id="#panel-8" href="javascript:void(0)"
 										onclick="show(this);">意见反馈</a></li>
-									<li><a id="#panel-4" href="javascript:void(0);"
+									<li><a id="#panel-4" href="javascript:void(0)"
 										onclick="show(this);">收件箱</a></li>
 									<li><a href="logout">退出</a></li>
 								</ul></li>
@@ -341,21 +342,18 @@ body {
 							</div>
 							<div class="col-md-7 column"
 								style="line-height: 34.3px; text-align: left;">
-								${ users.user.username } <br /> ${ users.user.tel } <br /> <span id="money">${ users.user.money }</span>&nbsp;元
-								<br /> ${ users.user.address } <br /> ${ users.user.birth } <br />
-								<c:if test="${ users.user.sex == 1 }">
-										女
-									</c:if>
-								<c:if test="${ users.user.sex == 0 }">
-										男
-									</c:if>
-								<br />
-								<c:forEach items="${users.fav }" var="fav">
-										${fav.fname } &nbsp;&nbsp;&nbsp;
-									</c:forEach>
-								<br /> ${ users.user.comm } <br /> <span
+								
+								<span id="userName"></span><br />
+								<span id="usertel"></span><br />
+								<span id="usermoney"></span><br />
+								<span id="useraddress"></span><br />
+								<span id="userbirth"></span><br />
+								<span id="usersex"></span><br />
+								<span id="userfav"></span><br />
+								<span id="usercomm"></span><br />
+								<span
 									style="margin-left: 180px;"> <a id="#panel-9"
-									href="javascript:void(0);" onclick="show(this);">修改 >></a>
+									href="javascript:void(0)" onclick="show(this);">修改 >></a>
 								</span>
 							</div>
 						</div>
@@ -379,7 +377,11 @@ body {
 						</div>
 						<!--选项卡7的内容 用户充值金额界面-->
 						<div class="tab-pane" id="panel-7" style="margin-top: 20px;">
-							<div class="col-md-12 column">panel-7</div>
+							<div class="col-md-12 column">
+								<input type="text" class="form-control" id="addmoney" style="width: 260px;margin:230px 0 0 430px;"/>
+								<button type="button" class="btn btn-default" onclick="submitMoney()"
+									style="width: 120px; margin: 25px 0 0 460px;">充值</button>
+							</div>
 						</div>
 						<!--选项卡8的内容 留言反馈界面-->
 						<div class="tab-pane " id="panel-8" style="margin-top: 20px;">

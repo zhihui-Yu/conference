@@ -38,7 +38,6 @@ public class AddConfer {
 		ci.setAddress(address);
 		ci.setPeople(people);
 		ci.setTel(tel);
-		ci.setStatus(status);
 		ci.setComm(comm);
 		// 插入conferInfor
 		int insConfer = adminServiceImpl.insConfer(ci);
@@ -49,7 +48,7 @@ public class AddConfer {
 		}
 
 		// 查找cid
-		int conferId = adminServiceImpl.selConferByName(conferName).getCid();
+		int conferId = adminServiceImpl.selOneConferByName(conferName).getCid();
 		//将图像路径和cid一起插入数据库
 		List<Img> img = new ArrayList<Img>();
 		for (int j = 0; j < file.length; j++) {

@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
 import com.yzh.dao.pojo.Fav;
@@ -18,6 +20,24 @@ import com.yzh.dao.pojo.User;
 public interface UserMapper {
 	
 	/**
+	 * 修改状态
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@Update("update approve set status = #{1} where id = #{0}")
+	int updApproveStatus(int id,String status);
+	
+	/**
+	 * 存入使用时间
+	 * @param cid
+	 * @param date
+	 * @return
+	 */
+	@Insert("insert into used values(default,#{0},#{1})")
+	int insUsed(int cid, @DateTimeFormat(pattern = "yyyy-MM-dd")@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")Date date);
+	
+	/**
 	 * 计算相应条件的confer 的长度
 	 * 
 	 * @param address   地址
@@ -26,7 +46,7 @@ public interface UserMapper {
 	 * @param time		时间
 	 * @return
 	 */
-	@Select("select count(*) from confer_infor where address like CONCAT('%',#{0},'%') and (size > CONCAT('%',#{1},'%') or size = CONCAT('%',#{1},'%'))"
+	@Select("select count(*) from confer_infor where address like CONCAT('%',#{0},'%') and (size > #{1} or size = #{1})"
 			+ " and peoCount like CONCAT('%',#{2},'%') and cid NOT IN (select cid from used where time like CONCAT('%',#{3},'%'))")
 	int selConferInfoCount(String address, int size, String peoCount, String time);
 	
@@ -41,7 +61,7 @@ public interface UserMapper {
 	 * @param pageSize 	页面大小
 	 * @return
 	 */
-	@Select("select * from confer_infor where address like CONCAT('%',#{0},'%') and (size > CONCAT('%',#{1},'%') or size = CONCAT('%',#{1},'%'))"
+	@Select("select * from confer_infor where address like CONCAT('%',#{0},'%') and (size > #{1} or size = #{1})"
 			+ " and peoCount like CONCAT('%',#{2},'%') and cid NOT IN (select cid from used where time like CONCAT('%',#{3},'%')) limit #{4},#{5}")
 	List<ConferInfor> selConferInfo(String address, int size, String peoCount, String time,int pageNum, int pageSize);
 	
@@ -57,57 +77,65 @@ public interface UserMapper {
 	 * @param name
 	 * @return
 	 */
-	@Select("select * from approve where status != '已完成' and cname like CONCAT('%',#{0},'%')  limit #{1},#{2}")
-	List<Approve> selApproveByName(String name, int pageNum, int pageSize);
+	@Select("select * from approve where uname = #{3} and status != '已完成' and status != '待使用' and status != '已拒绝' and cname like CONCAT('%',#{0},'%')  limit #{1},#{2}")
+	List<Approve> selApproveByName(String name, int pageNum, int pageSize, String uname);
 	
 	/**
 	 * 查询对应信息的所有订单
 	 * @param name
 	 * @return
 	 */
-	@Select("select * from approve where cname like CONCAT('%',#{0},'%')  limit #{1},#{2}")
-	List<Approve> selAllApproveByName(String name, int pageNum, int pageSize);
+	@Select("select * from approve where uname = #{3} and cname like CONCAT('%',#{0},'%') and (status = '已完成' or status = '待使用' or status = '已拒绝') limit #{1},#{2}")
+	List<Approve> selAllApproveByName(String name, int pageNum, int pageSize, String uname);
 	
 	/**
-	 * 找用户对应的全部信息的总数
+	 * 找用户对应的已完成的订单的总数
 	 * @param name 会议室名
 	 * @return
 	 */
-	@Select("select count(*) from approve where cname like CONCAT('%',#{0},'%') ")
-	int selAllCountByName(String name);
+	@Select("select count(*) from approve where uname = #{1} and cname like CONCAT('%',#{0},'%') and  (status = '已完成' or status = '待使用' or status = '已拒绝') ")
+	int selAllCountByName(String name, String uname);
 	
 	/**
 	 * 找用户未完成的预约信息的总数
 	 * @param name 会议室名
 	 * @return
 	 */
-	@Select("select count(*) from approve where status != '已完成' and cname like CONCAT('%',#{0},'%') ")
-	int selCountByName(String name);
+	@Select("select count(*) from approve where uname = #{1} and status != '已完成' and status != '待使用' and status != '已拒绝' and cname like CONCAT('%',#{0},'%') ")
+	int selCountByName(String name, String uname);
 	
 	/**
-	 * 找用户对应的预约信息的总数
+	 * 找用户对应的已完成的预约信息的总数
 	 * @return
 	 */
-	@Select("select count(*) from approve")
-	int selAllApproveCount();
+	@Select("select count(*) from approve where uname = #{0} and (status = '已完成' or status = '待使用' or status = '已拒绝')")
+	int selAllApproveCount(String uname);
 	
 	/**
 	 * 找用户对应的预约信息为完成的总数
 	 * @return
 	 */
-	@Select("select count(*) from approve where status != '已完成'")
-	int selApproveCount();
+	@Select("select count(*) from approve where uname = #{0} and status != '已完成' and status != '待使用' and status != '已拒绝'")
+	int selApproveCount(String uname);
 	
 	
 	/**
-	 * 找用户对应的预约信息
+	 * 找用户对应的已完成预约信息
 	 * @param uname
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
-	@Select("select * from approve where uname = #{0} limit #{1},#{2}")
-	List<Approve> selAllApproveByUid(String uname,int pageNum,int pageSize);
+	@Select("select * from approve where uname = #{0} and (status = '已完成' or status = '待使用' or status = '已拒绝') limit #{1},#{2}")
+	List<Approve> selAllApproveByUname(String uname,int pageNum,int pageSize);
+	
+	/**
+	 * 找用户对应的预约信息
+	 * @param uname
+	 * @return
+	 */
+	@Select("select * from approve where uname = #{0} and status != '已完成' and status != '待使用' and status != '已拒绝' limit #{1},#{2}")
+	List<Approve> selApproveByUname(String uname,int pageNum,int pageSize);
 	
 	/**
 	 * 修改预约时间
@@ -126,14 +154,6 @@ public interface UserMapper {
 	@Delete("delete from approve where id = #{0}")
 	int delApproveByid(int id);
 
-	/**
-	 * 找用户对应的预约信息
-	 * @param uname
-	 * @return
-	 */
-	@Select("select * from approve where uname = #{0} and status != '已完成' limit #{1},#{2}")
-	List<Approve> selApproveByUid(String uname,int pageNum,int pageSize);
-	
 	/**
 	 * 找用户名
 	 * @param id
@@ -237,6 +257,16 @@ public interface UserMapper {
 	 * @param moeny
 	 * @return
 	 */
-	@Update("update user set money = #{1} where uid = #{0}")
-	int updUserMoney(int uid,double moeny);
+	@Update("update user set money = money+ #{1} where uid = #{0}")
+	int updUserMoneyAdd(int uid,double moeny);
+	
+	/**
+	 * 缴费
+	 * 修改表中的金额
+	 * @param uid
+	 * @param moeny
+	 * @return
+	 */
+	@Update("update user set money = money - #{1} where uid = #{0}")
+	int updUserMoneyDes(int uid,double moeny);
 }

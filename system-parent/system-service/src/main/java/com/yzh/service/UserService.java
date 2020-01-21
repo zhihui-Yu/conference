@@ -13,6 +13,40 @@ import com.yzh.dao.pojo.User;
 public interface UserService {
 	
 	/**
+	 * 修改状态
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	int updApproveStatus(int id,String status);
+	
+	/**
+	 * 缴费
+	 * 修改表中的金额
+	 * @param uid
+	 * @param moeny
+	 * @return
+	 */
+	int updUserMoneyDes(int uid,double moeny);
+	
+	/**
+	 * 充值 缴费
+	 * 修改表中的金额
+	 * @param uid
+	 * @param moeny
+	 * @return
+	 */
+	int updUserMoneyAdd(int uid,double moeny);
+	
+	/**
+	 * 存入使用时间
+	 * @param cid
+	 * @param date
+	 * @return
+	 */
+	int insUsed(int cid, Date date);
+	
+	/**
 	 * 计算相应条件的confer 的长度
 	 * 
 	 * @param address   地址
@@ -48,49 +82,49 @@ public interface UserService {
 	 * @param name
 	 * @return
 	 */
-	List<Approve> selApproveByName(String name, int pageNum, int pageSize);
+	List<Approve> selApproveByName(String name, int pageNum, int pageSize, String uname);
 	
 	/**
-	 * 查询对应信息的所有订单
+	 * 查询完成的所有订单
 	 * @param name
 	 * @return
 	 */
-	List<Approve> selAllApproveByName(String name, int pageNum, int pageSize);
+	List<Approve> selAllApproveByName(String name, int pageNum, int pageSize, String uname);
 	
 	/**
 	 * 找用户对应的全部信息的总数
 	 * @param name 会议室名
 	 * @return
 	 */
-	int selAllCountByName(String name);
+	int selAllCountByName(String name, String uname);
 	
 	/**
 	 * 找用户对应的预约信息的总数
 	 * @param name 会议室名
 	 * @return
 	 */
-	int selCountByName(String name);
+	int selCountByName(String name, String uname);
 	
 	/**
-	 * 找用户对应的预约信息的总数
+	 * 找用户对应的已完成预约信息的总数
 	 * @param uname
 	 * @return
 	 */
-	int selAllApproveCount();
+	int selAllApproveCount(String uname);
 	
 	/**
-	 * 找用户对应的预约信息为完成的总数
+	 * 找用户对应的预约信息未完成的总数
 	 * @param uname
 	 * @return
 	 */
-	int selApproveCount();
+	int selApproveCount(String uname);
 	
 	/**
 	 * 找用户对应的预约信息
 	 * @param uname
 	 * @return
 	 */
-	List<Approve> selAllApproveByUid(String uname,int pageNum,int pageSize);
+	List<Approve> selAllApproveByUname(String uname,int pageNum,int pageSize);
 	
 	/**
 	 * 修改预约时间
@@ -112,7 +146,7 @@ public interface UserService {
 	 * @param uname
 	 * @return
 	 */
-	List<Approve> selApproveByUid(String uname,int pageNum,int pageSize);
+	List<Approve> selApproveByUname(String uname,int pageNum,int pageSize);
 	
 	/**
 	 * 找用户名
