@@ -6,10 +6,10 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 
 public class ResponseString {
-	public static void respongString(HttpServletResponse res,String str) throws IOException{
+	public static void respongString(HttpServletResponse res,String msg) throws IOException{
 		res.setCharacterEncoding("utf-8");
 		PrintWriter writer = res.getWriter();
-		writer.write(str);
+		writer.write(msg);
 		writer.flush();
 		writer.close();
 	}
