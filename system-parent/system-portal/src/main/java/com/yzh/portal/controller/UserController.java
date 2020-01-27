@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.User;
 import com.yzh.portal.dto.Users;
@@ -28,6 +29,48 @@ public class UserController {
 	private UserService userServiceImpl;
 	
 	String msg = "";
+	
+	@RequestMapping("delMsg")
+	@ResponseBody
+	public void delMsg(int id, HttpServletResponse res) throws IOException{
+		if(userServiceImpl.delDiscussById(id) > 0){
+			msg = "删除成功";
+		}
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 获取回复信息的数量
+	 * @param name
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("getMsgCount")
+	@ResponseBody
+	public void getMsgCount(String name, HttpServletResponse res) throws IOException{
+		msg = String.valueOf(userServiceImpl.selDiscussCount(name));
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 获取回复信息
+	 * @param name
+	 * @param pageNum
+	 * @param pageSize
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("getMsg")
+	@ResponseBody
+	public void getMsg(String name, int pageNum, int pageSize, HttpServletResponse res) throws IOException{
+		List<Discuss> discuss = userServiceImpl.selDiscuss(name,pageNum,pageSize);
+		msg = "暂无信息";
+		if(discuss.size()>0){
+			msg = new ObjectMapper().writeValueAsString(discuss);
+		}
+		ResponseString.respongString(res, msg);
+	}
+	
 	
 	/**
 	 * 用户详细信息页面

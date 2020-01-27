@@ -1,3 +1,19 @@
+#box {
+	float: left;
+	margin-top:25px;
+}
+#box img {
+	width: 100px;
+	height: 100px;
+}
+#box1 {
+	float: left;
+	margin-top:25px;
+}
+#box1 img {
+	width: 100px;
+	height: 100px;
+}
 .layui-table-cell{
 	  height:auto;
 	  overflow:visible;

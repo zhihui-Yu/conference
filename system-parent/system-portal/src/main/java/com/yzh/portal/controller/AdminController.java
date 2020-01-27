@@ -30,6 +30,7 @@ import com.yzh.portal.dto.Confer;
 import com.yzh.portal.dto.Users;
 import com.yzh.portal.method.AddConfer;
 import com.yzh.portal.method.ResponseString;
+import com.yzh.portal.method.SaveImg;
 import com.yzh.service.AdminService;
 
 @Controller
@@ -40,7 +41,112 @@ public class AdminController {
 	private AdminService adminServiceImpl;
 
 	String msg = "";
-
+	
+	/**
+	 * 修改图片信息
+	 * @param id
+	 * @param file
+	 * @param res
+	 * @throws IOException 
+	 */
+	@ResponseBody
+	@RequestMapping("changeImgById")
+	public void changeImgById(HttpServletRequest req, int id,@RequestParam MultipartFile[] file, HttpServletResponse res) throws IOException{
+		//获取本地的图片地址
+		String url = req.getSession().getServletContext().getRealPath("//upload/");
+		//删除本地会议室图片
+		List<Img> imgs = adminServiceImpl.selImgByConferId(id);
+		for (Img img : imgs) {
+			File f = new File(url+img.getPath());
+			//判断图片是不是存在
+			if(f.exists()){
+				//存在删除
+				f.delete();
+			}
+		}
+		//删除该会议室的图片
+		int index1 = adminServiceImpl.delImgByCid(id);
+		//保存图片到本地
+		String[] paths = SaveImg.saveFile(file, url);
+		//判断是不是都保存成功
+		boolean flag = false;
+		//将图片地址保存
+		for (String path : paths) {
+			//添加会议室的图片
+			Img img = new Img();
+			img.setCid(id);
+			img.setPath(path);
+			int index = adminServiceImpl.insImg(img);
+			if(index > 0){
+				flag = true;
+			}
+		}
+		//返回数据
+		if(flag && index1 > 0){
+			ResponseString.respongString(res, "修改成功");
+		} else {
+			System.out.println("修改失败");
+		}
+	}
+	
+	/**
+	 * 查找对应电话号码的订单
+	 * @param tel
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("selUseByTel")
+	@ResponseBody
+	public void selUseByTel(String tel, HttpServletResponse res) throws IOException {
+		List<Approve> selUseByTel = adminServiceImpl.selUseByTel(tel);
+		msg = "无信息";
+		if(selUseByTel.size() > 0){
+			ObjectMapper mapper = new ObjectMapper();
+			msg = mapper.writeValueAsString(selUseByTel);
+		}
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 查找待使用的订单信息
+	 * @param name
+	 * @param pageNum
+	 * @param pageSize
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("selUse")
+	@ResponseBody
+	public void selUse(int pageNum, int pageSize, HttpServletResponse res) throws IOException {
+		List<Approve> selUse = adminServiceImpl.selUse(pageNum, pageSize);
+		msg = "无信息";
+		if(selUse.size() > 0){
+			ObjectMapper mapper = new ObjectMapper();
+			msg = mapper.writeValueAsString(selUse);
+		}
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 查找待使用的订单数量
+	 * @param res
+	 * @throws IOException
+	 */
+	@RequestMapping("selUseCount")
+	@ResponseBody
+	public void selUseCount(HttpServletResponse res) throws IOException {
+		msg = String.valueOf(adminServiceImpl.selUseCount());
+		ResponseString.respongString(res, msg);
+	}
+	
+	/**
+	 * 回复信息
+	 * @param req
+	 * @param id
+	 * @param asay
+	 * @param res
+	 * @throws IOException
+	 */
 	@RequestMapping("responseUser")
 	@ResponseBody
 	public void responseUser(HttpServletRequest req, String id, String asay, HttpServletResponse res)
@@ -173,6 +279,8 @@ public class AdminController {
 				msg = "已拒绝";
 			} else if (status.equals("完成")) {
 				msg = "待使用";
+			} else if(status.equals("使用")){
+				msg = "已完成";
 			}
 			int index = adminServiceImpl.updApproveStatusById(msg, Integer.parseInt(id), admin.getAdminName());
 			if (index > 0) {
@@ -348,11 +456,12 @@ public class AdminController {
 	 * @return
 	 * @throws IOException
 	 */
+	@ResponseBody
 	@RequestMapping("addConfer")
-	public String addConfer(HttpServletRequest req, HttpServletResponse res, @RequestParam MultipartFile[] file)
+	public void addConfer(HttpServletRequest req, HttpServletResponse res, @RequestParam MultipartFile[] file)
 			throws IOException {
 		AddConfer.addConfer(req, file, adminServiceImpl);
-		return "redirect:/pages/admin/adminPages.jsp";
+		ResponseString.respongString(res, "添加成功");
 	}
 
 	/**

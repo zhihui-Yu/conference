@@ -14,9 +14,9 @@ function Jump(obj){
 					  +'<label>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.address+'</span><br/>'
 					  +'<label>联&nbsp;&nbsp;系&nbsp;&nbsp;人 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.people+'</span><br/>'
 					  +'<label>联系电话 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.tel+'</span><br/>'
-					  +'<label>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.status+'</span><br/>'
 					  +'<label>简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.comm+'</span><br/>'
-					  +'<label>申请时间 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="date"/></span><br/>';
+					  +'<label>申请时间 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="date"/></span><br/>'
+					  +'<span style="margin-left: 320px;"> <a href="main">返回>></a></span>';
 			$("#info").append(str);
 			//判断图片是不是多张  不是则去掉左右移动的
 			if(confer.img.length == 1){
@@ -34,12 +34,13 @@ function Jump(obj){
 					//多一个li
 					$("#detailOl").parent().append('<li data-slide-to="'+i+'" data-target="#carousel-627584"></li>');
 					//多一个图片有值
-					$("#detailImg").parent().append('<div class="item"><img '+confer.img[i].path+'style="width: 100%; height: 400px;" /></div>');
+					$("#detailImg").parent().append('<div class="item"><img src="'+confer.img[i].path+'" style="width: 100%; height: 400px;" /></div>');
 				}
 			}
 		} else {
 			alert(data);
 		}
+		timeSet();
 	});
 	//跳转页面
 	show(obj);

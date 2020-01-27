@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yzh.dao.mapper.UserMapper;
 import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
+import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
@@ -158,6 +159,31 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updApproveStatus(int id, String status) {
 		return userMapper.updApproveStatus(id, status);
+	}
+
+	@Override
+	public int selDiscussCount(String name) {
+		return userMapper.selDiscussCount(name);
+	}
+
+	@Override
+	public List<Discuss> selDiscuss(String name, int pageNum, int pageSize) {
+		return userMapper.selDiscuss(name, pageNum, pageSize);
+	}
+
+	@Override
+	public int delDiscussById(int id) {
+		return userMapper.delDiscussById(id);
+	}
+
+	@Override
+	public User selUserByName(String name) {
+		return userMapper.selUserByName(name);
+	}
+
+	@Override
+	public User selUserByTel(String tel) {
+		return userMapper.selUserByTel(tel);
 	}
 
 }

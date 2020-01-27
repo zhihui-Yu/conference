@@ -12,7 +12,6 @@
 %>
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8" />
@@ -28,8 +27,14 @@
 <script src=<%=jsPath + "paging.js"%>></script>
 <script src=<%=jsPath + "selApp.js"%>></script>
 <script src=<%=jsPath + "self.js"%>></script>
+<script src=<%=jsPath + "mail.js"%>></script>
 <script src=<%=jsPath + "approvePaging.js"%>></script>
 <script src=<%=jsPath + "selConferInfo.js"%>></script>
+<!-- datepicker -->
+<link rel="stylesheet" href=<%=cssPath + "bootstrap-datepicker.css"%>>
+<script src='<%=jsPath + "bootstrap-datepicker.js"%>'></script>
+<script src='<%=jsPath + "bootstrap-datepicker.zh-CN.js"%>'></script>
+<!-- end -->
 
 <style type="text/css">
 html {
@@ -93,7 +98,7 @@ body {
 									<li><a id="#panel-8" href="javascript:void(0)"
 										onclick="show(this);">意见反馈</a></li>
 									<li><a id="#panel-4" href="javascript:void(0)"
-										onclick="show(this);">收件箱</a></li>
+										onclick="showMsg(this);">收件箱</a></li>
 									<li><a href="logout">退出</a></li>
 								</ul></li>
 						</c:if>
@@ -167,8 +172,8 @@ body {
 										</div>
 										<div class="form-group">
 											<label for="date" class="col-sm-4 control-label">时间</label>
-											<div class="col-sm-7">
-												<input type="date" class="form-control" id="time" />
+											<div class="col-sm-7" >
+												<input type="date" class="form-control"  id="time"/>
 											</div>
 										</div>
 										<div class="form-group">
@@ -329,7 +334,46 @@ body {
 						</div>
 						<!--选项卡4的内容 收件箱的操作-->
 						<div class="tab-pane" id="panel-4" style="margin-top: 20px;">
-							<div class="col-md-12 column">收件箱</div>
+							<div class="col-md-12 column">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>编号</th>
+											<th>信息</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="msgTable">
+									</tbody>
+								</table>
+								<div class="col-md-12 column" style="text-align: center;">
+								<ul class="pagination" id="msgSize">
+								</ul>
+							</div>
+							</div>
+							<!-- 模态框    回复的详细信息 -->
+							<div class="modal fade" id="msgModal" tabindex="-1" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">×</button>
+											<h4 class="modal-title" id="myModalLabel">查看详细信息</h4>
+										</div>
+										<div class="modal-body" id="msgModalBody">
+											<h4 id="msgInfo"></h4>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">关闭</button>
+											<button type="button" class="btn btn-primary" id="delMsg">删除</button>
+										</div>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal-dialog -->
+							</div>
 						</div>
 						<!--选项卡5的内容 查看自己的个人信息-->
 						<div class="tab-pane" id="panel-5" style="margin: 60px 0 0 0;">
@@ -378,7 +422,7 @@ body {
 						<!--选项卡7的内容 用户充值金额界面-->
 						<div class="tab-pane" id="panel-7" style="margin-top: 20px;">
 							<div class="col-md-12 column">
-								<input type="text" class="form-control" id="addmoney" style="width: 260px;margin:230px 0 0 430px;"/>
+								<input type="text" placeholder="请输入充值金额" class="form-control" id="addmoney" style="width: 260px;margin:230px 0 0 430px;"/>
 								<button type="button" class="btn btn-default" onclick="submitMoney()"
 									style="width: 120px; margin: 25px 0 0 460px;">充值</button>
 							</div>
@@ -449,7 +493,7 @@ body {
 						<div class="tab-pane" id="panel-10" style="margin-top: 20px;">
 							<div class="col-md-6 column">
 								<!--幻灯片-->
-								<div class="carousel slide" id="carousel-627585">
+								<div class="carousel slide" id="carousel-627584">
 									<ol class="carousel-indicators">
 										<li class="active" data-slide-to="0"
 											data-target="#carousel-627584" id="detailOl"></li>
@@ -469,12 +513,10 @@ body {
 							</div>
 							<div class="col-md-6 column">
 								<div class="col-sm-2 column"
-									style="line-height: 30px; text-align: right;"></div>
+									style="line-height: 30px; text-align: right;">
+								</div>
 								<div id="info" class="col-sm-10 column"
 									style="line-height: 34px; text-align: left;">
-									<span style="margin-left: 320px;"> <a href="main">返回
-											>></a>
-									</span>
 								</div>
 								<button type="button" class="btn btn-default"
 									onclick="orderConfer();"

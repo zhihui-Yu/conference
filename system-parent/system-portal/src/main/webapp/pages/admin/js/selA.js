@@ -72,7 +72,7 @@ function insSelA(data) {
 		str += '<tr><td>' + (parseInt(i) + 1) + '</td>' + '<td>'
 				+ approves[i].uname + '</td>' + '<td>' + approves[i].cname
 				+ '</td>' + '<td>' + approves[i].time + '</td>'
-				+ '<td id="needMoney">' + approves[i].money + '</td>' + '<td>'
+				+ '<td>' + approves[i].money + '</td>' + '<td>'
 				+ approves[i].status + '</td>';
 		str += oper + '</tr>';
 	}
@@ -137,7 +137,7 @@ function approve(id, type) {
 }
 // 通过名字查询
 function selAByName() {
-	getSelData(0, 8);
+	var flag = getSelData(0, 8);
 	if (flag) {
 		display("selAppByNameCount", "#selAPageing", "getSelData", $(
 				"#selAbyname").val());

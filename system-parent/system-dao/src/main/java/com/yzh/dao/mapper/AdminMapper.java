@@ -17,6 +17,34 @@ import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface AdminMapper {
+
+	/**
+	 * 通过电话查找订单信息
+	 * @param pageNum
+	 * @param pageSize
+	 * @param tel
+	 * @return
+	 */
+	@Select("select * from approve where status = '待使用' and tel = #{0} ")
+	List<Approve> selUseByTel(String tel);
+	
+	/**
+	 * 查找待使用的订单数量
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@Select("select count(*) from approve where status = '待使用' ")
+	int selUseCount();
+	
+	/**
+	 * 查找待使用的订单信息
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@Select("select * from approve where status = '待使用' limit #{0},#{1}")
+	List<Approve> selUse(int pageNum, int pageSize);
 	
 	/**
 	 * 回复留言
@@ -173,7 +201,7 @@ public interface AdminMapper {
 	 * @param admin
 	 * @return
 	 */
-	@Select("select * from admin where adminName=#{adminName} and password=#{password}")
+	@Select("select * from admin where adminName=#{adminName}")
 	Admin checkAdmin(Admin admin);
 
 	/**
@@ -190,7 +218,7 @@ public interface AdminMapper {
 	 * @param c
 	 * @return
 	 */
-	@Insert("insert into confer_infor values(default,#{conferName},#{size},#{price},#{peoCount},#{address},#{people},#{tel},#{status},#{comm})")
+	@Insert("insert into confer_infor values(default,#{conferName},#{size},#{price},#{peoCount},#{address},#{people},#{tel},#{comm})")
 	int insConfer(ConferInfor c);
 
 	/**

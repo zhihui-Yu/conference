@@ -9,7 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -17,9 +16,6 @@
 <title>后台管理</title>
 <link rel="stylesheet" href=<%=cssPath + "layui.css"%>>
 <link rel="stylesheet" href=<%=basePath + "/admin/css/adminPage.css"%>>
-<%-- <link rel="stylesheet" href=<%=cssPath + "bootstrap.min.css"%>>
-<script src='<%=jsPath + "jquery-1.9.1.js"%>'></script>
-<script src=<%=jsPath + "bootstrap.min.js"%>></script> --%>
 <script src='<%=jsPath + "jquery-1.9.1.js"%>'></script>
 <script src=<%=basePath + "/admin/js/selA.js"%>></script>
 <script src=<%=basePath + "/admin/js/takeMsg.js"%>></script>
@@ -27,6 +23,9 @@
 <script src=<%=basePath + "/admin/js/selUser.js"%>></script>
 <script src=<%=basePath + "/admin/js/selConfer.js"%>></script>
 <script src=<%=basePath + "/admin/js/changePassword.js"%>></script>
+<script src=<%=basePath + "/admin/js/useConfer.js"%>></script>
+<script src=<%=basePath + "/admin/js/addConfer.js"%>></script>
+<script src=<%=basePath + "/admin/js/imgCount.js"%>></script>
 <script src=<%=jsPath + "approvePaging.js"%>></script>
 <script src=<%=jsPath + "menu.js"%>></script>
 </head>
@@ -36,8 +35,8 @@
 		<div class="layui-header">
 			<div class="layui-logo">会议管理系统后台</div>
 			<ul class="layui-nav layui-layout-right">
-				<li class="layui-nav-item"><a href="javascript:;">${admin.adminName }
-				</a>
+				<li class="layui-nav-item"><a href="javascript:;"
+					id="adminName">${admin.adminName } </a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:void(0);" onclick="openThis(this)"
@@ -51,20 +50,21 @@
 		<div class="layui-side layui-bg-black">
 			<div class="layui-side-scroll">
 				<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-				<ul class="layui-nav layui-nav-tree" lay-filter="test">
+				<ul class="layui-nav layui-nav-tree">
 					<li class="layui-nav-item layui-nav-itemed"><a class=""
 						href="javascript:void(0);;">会议室信息管理</a>
 						<dl class="layui-nav-child">
 							<dd>
-								<a href="javascript:void(0);" onclick="openThis(this)" id="addC">添加会议室信息</a>
+								<a href="javascript:void(0);" onclick="showAddC(this)" id="addC">添加会议室信息</a>
 							</dd>
 							<dd>
 								<a href="javascript:void(0);" onclick="showConfer(this)"
 									id="selC">查询会议室信息</a>
 							</dd>
-							<dd>
-								<a href="javascript:void(0);" onclick="openThis(this)" id="updConferImg">修改会议室图片</a>
-							</dd>
+							<!-- <dd>
+								<a href="javascript:void(0);" onclick="openThis(this)"
+									id="updConferImg">修改会议室图片</a>
+							</dd> -->
 						</dl></li>
 					<li class="layui-nav-item"><a href="javascript:void(0);">用户管理</a>
 						<dl class="layui-nav-child">
@@ -72,7 +72,7 @@
 								<a href="javascript:void(0);" onclick="showUser(this)" id="selU">查询用户</a>
 							</dd>
 							<dd>
-								<a href="javascript:void(0);" onclick="openThis(this)" id="updU">使用登记</a>
+								<a href="javascript:void(0);" onclick="showUse(this)" id="updU">使用登记</a>
 							</dd>
 							<dd>
 								<a href="javascript:void(0);" onclick="showTakeMsg(this)"
@@ -97,9 +97,81 @@
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
 				<!--添加会议室-->
-				<iframe class="addC"
-					style="display: none; width: 100%; height: 580px; border: none"
-					src="addConfer.jsp"></iframe>
+				<div class="addC"
+					style="display: none; width: 100%; height: 580px; border: none; padding: 15px 20px 0 235px;">
+					<form class="layui-form" id="addConfer" onsubmit="return false;">
+						<div class="layui-form-item">
+							<label class="layui-form-label">会议室名称</label>
+							<div class="layui-input-inline" style="width: 260px">
+								<input type="text" id="conferName" required
+									 placeholder="请输入会议室名称" autocomplete="off"
+									class="layui-input" style="width: 260px">
+							</div>
+							<label class="layui-form-label">会议室大小(m2)</label>
+							<div class="layui-input-inline">
+								<input type="text" id="size" required 
+									placeholder="请输入会议室大小" autocomplete="off" class="layui-input"
+									style="width: 260px">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">可容纳人数</label>
+							<div class="layui-input-inline" style="width: 260px">
+								<select id="peoNum">
+								</select>
+							</div>
+							<label class="layui-form-label">会议室价格 (元/天)</label>
+							<div class="layui-input-inline">
+								<input type="text" id="price" required 
+									placeholder="请输入会议室价格" autocomplete="off" class="layui-input"
+									style="width: 260px">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">地址</label>
+							<div class="layui-input-inline" style="width: 260px">
+								<input type="text" id="address" required 
+									placeholder="请输入会议室地址" autocomplete="off" class="layui-input"
+									style="width: 260px">
+							</div>
+							<label class="layui-form-label">联系人</label>
+							<div class="layui-input-inline">
+								<input type="text" id="people" required 
+									placeholder="请输入联系人姓名" autocomplete="off" class="layui-input"
+									style="width: 260px">
+							</div>
+						</div>
+						<div class="layui-form-item" style="margin-top: 40px;">
+							<label class="layui-form-label">电话</label>
+							<div class="layui-input-inline" style="width: 260px">
+								<input type="text" id="tel" required 
+									placeholder="请输入联系人电话" autocomplete="off" class="layui-input"
+									style="width: 260px">
+							</div>
+							<label class="layui-form-label">备注</label>
+							<div class="layui-input-inline">
+								<textarea placeholder="请输入内容(50字符内)" id="comm"
+									class="layui-textarea" style="width: 260px; resize: none;"></textarea>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">会议室图片</label> <input type="file"
+								id="file" multiple="multiple"
+								onchange='readImage(this,"#box1",3)' class="layui-input"
+								style="width: 260px; margin: 20px 0 0 60px;"
+								accept='image/gif,image/jpeg,image/jpg,image/png'>
+							<div id="box1">
+								<br>
+							</div>
+						</div>
+						<div class="layui-form-item"
+							style="position: absolute; bottom: 25px; left: 500px; width: 230px;">
+							<button type="button" onclick="addConfer();" class="layui-btn"
+								style="width: 100px" >提交</button> <input type="reset" value="重置"
+								class="layui-btn" style="width: 100px" />
+						</div>
+					</form>
+				</div>
 				<!-- 查找会议室 -->
 				<div class="selC"
 					style="display: none; width: 100%; height: 580px; border: none">
@@ -107,7 +179,7 @@
 						<div class="layui-item" style="padding: 20px 0px 15px 430px;">
 							<div class="layui-input-inline">
 								<input type="text" id="selConferByname" required
-									lay-verify="required" placeholder="请输入会议室名" autocomplete="off"
+									 placeholder="请输入会议室名" autocomplete="off"
 									class="layui-input">
 							</div>
 							<button type="button" class="layui-btn"
@@ -124,6 +196,7 @@
 								<col width="80">
 								<col width="80">
 								<col width="120">
+								<col width="180">
 								<col width="160">
 								<col>
 							</colgroup>
@@ -149,20 +222,42 @@
 							<ul class="pagination-digg" id="selConferPageing">
 							</ul>
 						</div>
-						<!-- 模拟框 -->
+						<!-- 修改图片信息 模拟框 -->
+						<div id="selChangeModal" style="display: none;">
+							<br /> <br /> &nbsp;&nbsp;&nbsp;&nbsp;
+							<button type='button' class='layui-btn' id="changeImg">修改图片</button>
+							&nbsp;&nbsp;
+							<button type='button' class='layui-btn' id="changeBase">修改基本信息</button>
+						</div>
+						<!-- 修改图片信息 模拟框 -->
+						<div id="selImgModal" style="display: none;">
+							<div class="img">
+								<input type="file" name="file" multiple="multiple" id="images"
+									onchange='readImage(this,"#box",3)' class="layui-input"
+									style="width: 260px; margin: 20px 0 0 60px;"
+									accept='image/gif,image/jpeg,image/jpg,image/png'>
+								<div id="box">
+									<br>
+								</div>
+							</div>
+							<div class="button"
+								style="position: absolute; bottom: 25px; left: 160px; text-align: center;">
+							</div>
+						</div>
+						<!-- 修改会议室信息 模拟框 -->
 						<div id="selconferModal" style="display: none;">
 							<br /> <br />
-							<form class="layui-form" id="addConfer">
+							<form class="layui-form">
 								<div class="layui-form-item">
 									<label class="layui-form-label">会议室名称</label>
 									<div class="layui-input-inline">
 										<input type="text" required id="updconferName"
-											lay-verify="required" placeholder="请输入会议室名称"
+											 placeholder="请输入会议室名称"
 											autocomplete="off" class="layui-input" style="width: 260px">
 									</div>
 									<label class="layui-form-label">会议室大小(m2)</label>
 									<div class="layui-input-inline">
-										<input type="text" required lay-verify="required" id="updsize"
+										<input type="text" required  id="updsize"
 											placeholder="请输入会议室大小" autocomplete="off" class="layui-input"
 											style="width: 260px">
 									</div>
@@ -175,7 +270,7 @@
 									</div>
 									<label class="layui-form-label">会议室价格 (元/天)</label>
 									<div class="layui-input-inline">
-										<input type="text" required lay-verify="required"
+										<input type="text" required 
 											id="updprice" placeholder="请输入会议室价格" autocomplete="off"
 											class="layui-input" style="width: 260px">
 									</div>
@@ -183,13 +278,13 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">地址</label>
 									<div class="layui-input-inline">
-										<input type="text" required lay-verify="required"
+										<input type="text" required 
 											id="updaddress" placeholder="请输入会议室地址" autocomplete="off"
 											class="layui-input" style="width: 260px">
 									</div>
 									<label class="layui-form-label">联系人</label>
 									<div class="layui-input-inline">
-										<input type="text" required lay-verify="required"
+										<input type="text" required 
 											id="updpeople" placeholder="请输入联系人姓名" autocomplete="off"
 											class="layui-input" style="width: 260px">
 									</div>
@@ -197,7 +292,7 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">电话</label>
 									<div class="layui-input-inline">
-										<input type="text" required lay-verify="required" id="updtel"
+										<input type="text" required  id="updtel"
 											placeholder="请输入联系人电话" autocomplete="off" class="layui-input"
 											style="width: 260px">
 									</div>
@@ -225,7 +320,7 @@
 					<div class="layui-item" style="padding: 20px 0px 15px 430px;">
 						<div class="layui-input-inline">
 							<input type="text" id="takeUserName" required
-								lay-verify="required" placeholder="请输入用户名" autocomplete="off"
+								 placeholder="请输入用户名" autocomplete="off"
 								class="layui-input">
 						</div>
 						<button type="button" class="layui-btn" onclick="selUserByName()">查询</button>
@@ -277,14 +372,47 @@
 				<!-- 使用登记 -->
 				<div class="updU"
 					style="display: none; width: 100%; height: 580px; border: none">
-					使用登记</div>
+					<div class="layui-item" style="padding: 20px 0px 15px 430px;">
+						<div class="layui-input-inline">
+							<input type="text" id="takeByTel" required 
+								placeholder="请输入电话号码" autocomplete="off" class="layui-input">
+						</div>
+						<button type="button" class="layui-btn" onclick="takeByTel()">查询</button>
+					</div>
+					<table class="layui-table" lay-skin="line">
+						<colgroup>
+							<col width="80">
+							<col width="100">
+							<col width="120">
+							<col width="120">
+							<col width="120">
+							<col width="200">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>编号</th>
+								<th>用户名</th>
+								<th>电话号码</th>
+								<th>使用时间</th>
+								<th>会议室名</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="useConfer_tbody">
+						</tbody>
+					</table>
+					<div class="pagingdiv">
+						<ul class="pagination-digg" id="useConferPageing">
+						</ul>
+					</div>
+				</div>
 				<!-- 用户反馈 -->
 				<div class="takeMsg"
 					style="display: none; width: 100%; height: 580px; border: none">
 					<div class="layui-item" style="padding: 20px 0px 15px 430px;">
 						<div class="layui-input-inline">
 							<input type="text" id="takeMsgByName" required
-								lay-verify="required" placeholder="请输入用户名" autocomplete="off"
+								 placeholder="请输入用户名" autocomplete="off"
 								class="layui-input">
 						</div>
 						<button type="button" class="layui-btn" onclick="selMsgByName()">查询</button>
@@ -340,7 +468,7 @@
 						<div class="layui-item" style="padding: 20px 0px 15px 430px;">
 							<div class="layui-input-inline">
 								<input type="text" id="selAbyname" required
-									lay-verify="required" placeholder="请输入会议室名" autocomplete="off"
+									 placeholder="请输入会议室名" autocomplete="off"
 									class="layui-input">
 							</div>
 							<button type="button" class="layui-btn" onclick="selAByName()">查询</button>
@@ -392,7 +520,7 @@
 					<div style="padding: 15px;">
 						<div class="layui-item" style="padding: 20px 0px 15px 430px;">
 							<div class="layui-input-inline">
-								<input type="text" id="AD_name" required lay-verify="required"
+								<input type="text" id="AD_name" required 
 									placeholder="请输入会议室名" autocomplete="off" class="layui-input">
 							</div>
 							<button type="button" class="layui-btn" onclick="selADByName()">查询</button>
@@ -434,7 +562,7 @@
 							<label class="layui-form-label">原密码</label>
 							<div class="layui-input-block">
 								<input type="password" name="oldPassword" required
-									id="oldPassword" lay-verify="required" placeholder="请输入原密码"
+									id="oldPassword"  placeholder="请输入原密码"
 									autocomplete="off" class="layui-input" style="width: 260px">
 							</div>
 						</div>
@@ -442,7 +570,7 @@
 							<label class="layui-form-label">新密码</label>
 							<div class="layui-input-block">
 								<input type="password" name="newPassword1" required
-									id="newPassword1" lay-verify="required" placeholder="请输入新密码"
+									id="newPassword1"  placeholder="请输入新密码"
 									autocomplete="off" class="layui-input" style="width: 260px">
 							</div>
 						</div>
@@ -450,13 +578,13 @@
 							<label class="layui-form-label">确认新密码</label>
 							<div class="layui-input-block">
 								<input type="password" name="newPassword2" required
-									id="newPassword2" lay-verify="required" placeholder="请再次输入新密码"
+									id="newPassword2"  placeholder="请再次输入新密码"
 									autocomplete="off" class="layui-input" style="width: 260px">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<div class="layui-input-block">
-								<input type="submit" value="修改" class="layui-btn"
+								<input id="changePass" type="submit" value="修改" class="layui-btn"
 									style="width: 100px" /> <input type="reset" value="重置"
 									class="layui-btn" style="width: 100px" />
 							</div>

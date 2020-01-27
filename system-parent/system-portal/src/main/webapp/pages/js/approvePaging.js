@@ -25,10 +25,8 @@ function display(url,id,name,cname){
 }
 function inShow(id,count,name){
 	$(id).html("");
-	//加载后显示可点击的页数
-	
 	//一页不显示
-	if(count/8 == 0){
+	if( ((count)/8)<1 || ((count)/8)==1 ){
 		
 	} else {
 		$(id).append('<li><a href="javascript:void(0);" onclick="getNextOrPrev(this,'+name+');">Prev</a></li>');

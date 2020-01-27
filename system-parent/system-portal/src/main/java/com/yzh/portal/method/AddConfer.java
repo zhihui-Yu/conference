@@ -15,12 +15,11 @@ public class AddConfer {
 	public static String addConfer(HttpServletRequest req,MultipartFile[] file, AdminService adminServiceImpl){
 		String conferName = req.getParameter("conferName");
 		String size = req.getParameter("size");
-		String peoCount = req.getParameter("peoNum");
+		String peoCount = req.getParameter("peoCount");
 		String price = req.getParameter("price");
 		String address = req.getParameter("address");
 		String people = req.getParameter("people");
 		String tel = req.getParameter("tel");
-		String status = "未使用";
 		String comm = req.getParameter("comm");
 		
 		String url = req.getSession().getServletContext().getRealPath("/upload");

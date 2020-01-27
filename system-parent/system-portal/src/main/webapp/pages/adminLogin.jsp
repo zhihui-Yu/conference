@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	String basePath = application.getContextPath() + "/pages";
+	String cssPath = basePath + "/css/";
+	String jsPath = basePath + "/js/";
+	String imgPath = basePath + "/img/";
+%>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="utf-8">
 <title>后台登入</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css"
-	href=<%=application.getContextPath() + "/pages/css/login.css" %> />
+<link rel="stylesheet" type="text/css" href=<%=cssPath + "login.css"%> />
+<script type="text/javascript" src=<%=jsPath + "login.js"%>></script>
+<script type="text/javascript" src=<%=jsPath + "jquery-1.9.1.js"%>></script>
 </head>
 
 <body style="background: #393D49;">
@@ -23,17 +30,17 @@
 	<div class="main">
 		<div class="mainin">
 			<h1>
-				<span style="font-size: 35px;color:white;font-family: '微软雅黑'">后台管理</span>
+				<span style="font-size: 35px; color: white; font-family: '微软雅黑'">后台管理</span>
 			</h1>
-			<form action="toadminLogin" method="post">
+			<form onsubmit="return false;">
 				<div class="mainin1">
 					<ul>
-						<li><span>用户名：</span> <input name="username" type="text"
+						<li><span>用户名：</span> <input id="adminname" type="text"
 							id="loginName" placeholder="登录名" class="SearchKeyword"></li>
-						<li><span>密码：</span> <input type="password" name="password"
-							id="Possword" placeholder="密码" / class="SearchKeyword2">
-						</li>
-						<li><input class="tijiao" type="submit" value="提交" /></li>
+						<li><span>密码：</span> <input type="password" id="adminP"
+							placeholder="密码" class="SearchKeyword2"></li>
+						<li><input class="tijiao" type="button"
+							onclick="adminLogin()" value="提交" /></li>
 					</ul>
 				</div>
 			</form>
@@ -49,7 +56,7 @@
 			<a onclick="puc()">确定</a>
 		</div>
 	</div>
-	</div>
+	<input type="hidden" value=<%=basePath%> id="jspPath">
 </body>
 
 </html>

@@ -9,6 +9,8 @@
 	href=<%=application.getContextPath() + "/pages/css/login.css"%> />
 <script type="text/javascript"
 	src=<%=application.getContextPath() + "/pages/js/jquery-1.9.1.js"%>></script>
+	<script type="text/javascript"
+	src=<%=application.getContextPath() + "/pages/js/registerValidate.js"%>></script>
 <style type="text/css">
 a {
 	color: white;
@@ -19,8 +21,6 @@ a:hover {
 }
 </style>
 </head>
-<script type="text/javascript"
-	src=<%=application.getContextPath() + "/pages/js/common.js"%>></script>
 </head>
 <body style="background: #393D49;">
 	<div class="header">
@@ -39,7 +39,7 @@ a:hover {
 		</div>
 	</div>
 	<div class="form">
-		<form action="toRegister" method="post">
+		<form action="toRegister" method="post" onsubmit="return check()">
 			<div class="login">
 				<div class="username">
 					<img src=<%=application.getContextPath() + "/pages/img/u.jpg"%>
@@ -64,7 +64,7 @@ a:hover {
 					<input type="radio" name="sex" value="1">女
 				</div>
 				<div>
-					<input type="submit" value="注册 " class="sub" />
+					<input type="submit" value="注册" class="sub" />
 				</div>
 			</div>
 		</form>

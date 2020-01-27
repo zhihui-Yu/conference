@@ -8,9 +8,9 @@ function showSel(obj){
 		$("#useraddress").html(users.user.address);
 		$("#userbirth").html(users.user.birth);
 		if(users.user.sex == 1){
-			$("#usersex").html("男");
-		} else if(users.user.sex == 0){
 			$("#usersex").html("女");
+		} else if(users.user.sex == 0){
+			$("#usersex").html("男");
 		}
 		var str = "";
 		for(var i = 0; i < users.fav.length; i++){

@@ -1,5 +1,21 @@
 $(function() {
-		$(":submit").click(function(){
+	//填充peoNum
+	$(	
+			function() {
+				var peoNum = getPeoNum();
+				var peo = '';
+				for (var j = 0; j < peoNum.length; j++) {
+					peo += '<option value="'+peoNum[j].peoCount+'">'
+							+ peoNum[j].peoCount + '</option>';
+				}
+				$("#peoNum").append(peo);
+
+				layui.use('form', function() {
+					var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+					form.render();
+				});
+			})
+		$("#changePass").click(function(){
 			var old = $("#oldPassword").val();
 			var new1 = $("#newPassword1").val();
 			var new2 = $("#newPassword2").val();

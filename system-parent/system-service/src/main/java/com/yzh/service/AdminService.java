@@ -14,6 +14,31 @@ import com.yzh.dao.pojo.User;
 public interface AdminService {
 	
 	/**
+	 * 通过电话查找订单信息
+	 * @param pageNum
+	 * @param pageSize
+	 * @param tel
+	 * @return
+	 */
+	List<Approve> selUseByTel(String tel);
+	
+	/**
+	 * 查找待使用的订单数量
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	int selUseCount();
+	
+	/**
+	 * 查找待使用的订单信息
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	List<Approve> selUse(int pageNum, int pageSize);
+	
+	/**
 	 * 回复留言
 	 * @param id
 	 * @param aname

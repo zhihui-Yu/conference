@@ -64,8 +64,8 @@ function insSelConfer(data) {
 			img += '<img src='+confer[i].img[j].path+' class="conferImg" />&nbsp;&nbsp;';
 		}
 		var button = "";
-			button = "<button type='button' class='layui-btn  layui-btn-xs' onclick = 'conferChange(this,"+confer[i].ci.cid+")'>修改</button>"
-					 +"<button type='button' class='layui-btn layui-btn-danger layui-btn-xs' onclick = 'delconfer("+confer[i].ci.cid+")'>删除</button>";
+			button = "<button type='button' class='layui-btn  layui-btn-xs' onclick = 'change(this,"+confer[i].ci.cid+")'>修改</button>&nbsp;"
+					+"<button type='button' class='layui-btn layui-btn-danger layui-btn-xs' onclick = 'delconfer("+confer[i].ci.cid+")'>删除</button>";
 		str += '<tr><td>' + (parseInt(i) + 1) + '</td>' 
 				+ '<td>'+ confer[i].ci.conferName + '</td>'
 				+ '<td>'+ confer[i].ci.size + '</td>'
@@ -76,9 +76,99 @@ function insSelConfer(data) {
 				+ '<td>'+ confer[i].ci.tel + '</td>'
 				+ '<td>'+ confer[i].ci.comm + '</td>'
 				+ '<td>'+ img + '</td>'
-				+ '<td>'+ button + '</td></tr>';
+				+ '<td id='+confer[i].ci.cid+'>'+ button + '</td></tr>';
 	}
 	$("#selConfer_tbody").append(str);
+}
+//获取修改事件
+function change(obj,id){
+	tid = $(obj).parent().attr("id");
+	$("#changeBase").attr("onclick","conferChange("+tid+","+id+")");
+	$("#changeImg").attr("onclick","ImgChange("+tid+","+id+");");
+	// 弹出modal框
+	layui.use([ 'layer' ], function() {
+		var layer = layui.layer, $ = layui.$;
+		layer.open({
+			type : 1,// 类型
+			area : [ '280px', '140px' ],// 定义宽和高
+			title : '选择修改内容',// 题目
+			shade : 0,
+			shadeClose : false,// 点击遮罩层关闭
+			content : $('#selChangeModal')
+		});
+	});
+}
+//修改图片
+function ImgChange(tid,id){
+	closeThis();
+	$('#box').html("");
+	 $("#images").val("");
+	$('.button').html("");
+	/*//获取img 标签的src属性的值 在img中在显示，在标签下面添加一个添加键和删除键
+	var butt = '<button type="button" class="layui-btn" onclick = "delImg(this)">删除</button>&nbsp;';
+	$("#"+tid).parent().children().eq(9).children("img").each(function(i,n){
+		var text = '<div class="OneThird" ><img src="'+$(this).attr("src")+'" class="imgShow"/><br/>'
+					+'<button type="button" class="layui-btn" onclick = "addImg(this,'+(i+1)+')">添加</button>&nbsp;'
+					+butt+"</div>";
+		$('.img').append(text);
+	})
+	//删除前面的添加键
+	$('.img').children("div").each(function(i,n){
+		if(i>0){
+			$(this).prev().children("button").each(function(i,n){
+				if(i==0){
+					$(this).remove();
+				}
+			})
+		}
+	})*/
+	//底部按钮
+	var button = "<button type='button' class='layui-btn ' onclick = 'changeImg(this,"+tid+")'>确定</button>&nbsp;"
+				+"<button type='button' class='layui-btn ' onclick = 'closeThis()'>取消</button>";
+	$('.button').append(button);
+	// 弹出modal框
+	layui.use([ 'layer' ], function() {
+		var layer = layui.layer, $ = layui.$;
+		layer.open({
+			type : 1,// 类型
+			area : [ '450px', '400px' ],// 定义宽和高
+			title : '重新上传图片内容',// 题目
+			shade : 0,
+			shadeClose : false,// 点击遮罩层关闭
+			content : $('#selImgModal')
+		});
+	});
+}
+//提交图片
+function changeImg(obj,id){
+	//获取图片数据
+	//提交数据内容
+	var a = new FormData();
+	for(var i = 0; i < $("#images")[0].files.length;i++){
+		a.append("file", $("#images")[0].files[i]);
+	}
+    a.append("id", id);
+    console.log(a);
+    $.ajax({
+        url:"changeImgById",
+        xhrFields:{
+                withCredentials:true
+        },
+        type: "POST",
+        cache: false,
+        data: a,
+        processData: false,
+        contentType:false,
+        async: false,
+        success: function (data) {
+        		alert(data);
+        		closeThis();
+        		//刷新页面
+        		getConfer(0, 8);
+        		// 添加页码
+        		display("selConferCount", "#selConferPageing", "getConfer");
+        	}
+        });
 }
 //删除会议室
 function delconfer(id){
@@ -90,12 +180,13 @@ function delconfer(id){
 	})
 }
 function getHtml(obj,id){
-	var trNode = $(obj).parent().parent();
+	var trNode = $("#"+obj).parent();
 	return trNode.children().eq(id).html();
 	
 }
 //修改点击事件
 function conferChange(obj,id){
+	closeThis();
 	$(".layui-input-inline").each(function(){
 		$(this).css("width","260px");
 	})
@@ -105,7 +196,7 @@ function conferChange(obj,id){
 	$("#updpeople").val(getHtml(obj,6));
 	$("#updtel").val(getHtml(obj,7));
 	$("#updaddress").val(getHtml(obj,5));
-	$("#updcomm").html(getHtml(obj,8));
+	$("#updcomm").val(getHtml(obj,8));
 	// 弹出modal框
 	layui.use([ 'layer' ], function() {
 		var layer = layui.layer, $ = layui.$;
@@ -152,7 +243,7 @@ function renderForm(data) {
 				form.render();
 			});
 }
-
+//修改会议室信息
 function updConfer(){
 	var conferName = $("#updconferName").val();
 	var size = $("#updsize").val();
@@ -160,22 +251,50 @@ function updConfer(){
 	var people = $("#updpeople").val();
 	var tel = $("#updtel").val();
 	var address = $("#updaddress").val();
-	var comm = $("#updcomm").html();
+	var comm = $("#updcomm").val();
 	var peoCount = $("#updpeoNum").val();
-	$.post("updConfer",{
-		conferName:conferName,
-		size:size,
-		price:price,
-		people:people,
-		tel:tel,
-		address:address,
-		comm:comm,
-		peoCount:peoCount
-	},function(data){
-		alert(data);
-		closeThis();
-		getConfer(0, 8);
-		// 添加页码
-		display("selConferCount", "#selConferPageing", "getConfer");
-	});
+	
+	if(conferName!="" && size!="" && price!="" && people!="" && tel!="" && address!="" && comm!="" && peoCount!="" ){
+		var flag = true;
+		//电话的regex
+		var telPattern =/^1[3456789]\d{9}$/;
+		if(!telPattern.test(tel)){
+			flag = false;
+			alert("电话格式不正确");
+		}
+		//大小的正则
+		var sizePattern = /^[1-9][0-9]{1,4}$/;
+		if(!sizePattern.test(size)){
+			flag = false;
+			alert("大小在10-9999之间");
+		}
+		//价格的正则
+		var pricePattern = /(^[1-9]\d{0,4}(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+		if(!pricePattern.test(price)){
+			flag = false;
+			alert("价格在1.00-99999.00");
+		}
+		
+		if(flag){
+			$.post("updConfer",{
+				conferName:conferName,
+				size:size,
+				price:price,
+				people:people,
+				tel:tel,
+				address:address,
+				comm:comm,
+				peoCount:peoCount
+			},function(data){
+				alert(data);
+				closeThis();
+				getConfer(0, 8);
+				// 添加页码
+				display("selConferCount", "#selConferPageing", "getConfer");
+			});
+		}
+		
+	} else {
+		alert("有些地方为空,请谨慎填写");
+	}
 }

@@ -5,12 +5,48 @@ import java.util.List;
 
 import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
+import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface UserService {
+	
+	/**
+	 * 查相应用户名的用户是不是存在
+	 * @param name
+	 * @return
+	 */
+	User selUserByName(String name);
+	
+	/**
+	 * 查相应用电话号码的用户是不是存在
+	 * @param tel
+	 * @return
+	 */
+	User selUserByTel(String tel);
+	
+	/**
+	 * 删除信息
+	 * @param id
+	 * @return
+	 */
+	int delDiscussById(int id);
+	
+	/**
+	 * 查找回复信息的数量
+	 * @param name
+	 * @return
+	 */
+	int selDiscussCount(String name);
+	
+	/**
+	 * 查找回复信息
+	 * @param name
+	 * @return
+	 */
+	List<Discuss> selDiscuss(String name, int pageNum, int pageSize);
 	
 	/**
 	 * 修改状态

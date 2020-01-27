@@ -24,6 +24,14 @@ public class Approve {
 	private Date dealtime;
 	private double money;
 	private String status;
+	private String tel;
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
 	public Date getDealtime() {
 		return dealtime;
 	}

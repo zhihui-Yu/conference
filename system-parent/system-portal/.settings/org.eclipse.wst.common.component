@@ -14,6 +14,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/system-portal/target/classes"/>
-        <property name="context-root" value="/"/>
+        <property name="context-root" value="system-portal"/>
     </wb-module>
 </project-modules>

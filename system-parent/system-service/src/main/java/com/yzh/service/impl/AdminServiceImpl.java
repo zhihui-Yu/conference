@@ -227,5 +227,20 @@ public class AdminServiceImpl implements AdminService{
 	public ConferInfor selOneConferByName(String name) {
 		return adminMapper.selOneConferByName(name);
 	}
+
+	@Override
+	public List<Approve> selUseByTel(String tel) {
+		return adminMapper.selUseByTel(tel);
+	}
+
+	@Override
+	public int selUseCount() {
+		return adminMapper.selUseCount();
+	}
+
+	@Override
+	public List<Approve> selUse(int pageNum, int pageSize) {
+		return adminMapper.selUse(pageNum, pageSize);
+	}
 	
 }

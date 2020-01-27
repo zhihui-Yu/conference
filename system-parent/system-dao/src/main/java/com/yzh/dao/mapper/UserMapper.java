@@ -12,12 +12,53 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
+import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface UserMapper {
+	
+	/**
+	 * 查相应用户名的用户是不是存在
+	 * @param name
+	 * @return
+	 */
+	@Select("select * from user where username = #{0} ")
+	User selUserByName(String name);
+	
+	/**
+	 * 查相应用电话号码的用户是不是存在
+	 * @param tel
+	 * @return
+	 */
+	@Select("select * from user where tel = #{0}")
+	User selUserByTel(String tel);
+	
+	/**
+	 * 删除信息
+	 * @param id
+	 * @return
+	 */
+	@Delete("delete from discuss where id = #{0}")
+	int delDiscussById(int id);
+	
+	/**
+	 * 查找回复信息的数量
+	 * @param name
+	 * @return
+	 */
+	@Select("select count(*) from discuss where uname = #{0}  and aname is not null")
+	int selDiscussCount(String name);
+	
+	/**
+	 * 查找回复信息
+	 * @param name
+	 * @return
+	 */
+	@Select("select * from discuss where uname = #{0} and aname is not null limit #{1},#{2}")
+	List<Discuss> selDiscuss(String name, int pageNum, int pageSize);
 	
 	/**
 	 * 修改状态
@@ -218,7 +259,7 @@ public interface UserMapper {
 	 * @param u
 	 * @return
 	 */
-	@Select("select * from user where username=#{username} and password=#{password}")
+	@Select("select * from user where username=#{username}")
 	User selUser(User u);
 	
 	/**
