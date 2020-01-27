@@ -2,6 +2,11 @@
 function Jump(obj){
 	//给页面填充数据
 	$.post("detailConfer",{id:$(obj).children("input").val()},function(data){
+		//将图片部分初始化
+		//只保留第一个
+		$("#detailOl").siblings().remove();
+		$("#detailImg").siblings().remove();
+		
 		$("#info").html("");
 		if(data!="无会议室信息"){
 			var confer = JSON.parse(data);

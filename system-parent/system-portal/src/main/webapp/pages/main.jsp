@@ -31,9 +31,9 @@
 <script src=<%=jsPath + "approvePaging.js"%>></script>
 <script src=<%=jsPath + "selConferInfo.js"%>></script>
 <!-- datepicker -->
-<link rel="stylesheet" href=<%=cssPath + "bootstrap-datepicker.css"%>>
+<%-- <link rel="stylesheet" href=<%=cssPath + "bootstrap-datepicker.css"%>>
 <script src='<%=jsPath + "bootstrap-datepicker.js"%>'></script>
-<script src='<%=jsPath + "bootstrap-datepicker.zh-CN.js"%>'></script>
+<script src='<%=jsPath + "bootstrap-datepicker.zh-CN.js"%>'></script> --%>
 <!-- end -->
 
 <style type="text/css">
@@ -448,8 +448,7 @@ body {
 										class="form-control" value="${users.user.username }" />
 								</div>
 								<div class="form-group">
-									<label>性别</label> <select id="sex" class="form-control"
-										autocomplete="off">
+									<label>性别</label> <select id="sex" class="form-control">
 										<c:if test="${users.user.sex == 0 }">
 											<option value="0" selected="selected">男</option>
 											<option value="1">女</option>

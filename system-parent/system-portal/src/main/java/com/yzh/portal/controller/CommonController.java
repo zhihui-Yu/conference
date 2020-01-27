@@ -49,6 +49,17 @@ public class CommonController {
 		ResponseString.respongString(res, String.valueOf(count));
 	}
 	
+	/**
+	 * 按照要求查找会议室信息
+	 * @param address
+	 * @param size
+	 * @param peoCount
+	 * @param time
+	 * @param pageNum
+	 * @param pageSize
+	 * @param res
+	 * @throws IOException
+	 */
 	@RequestMapping("selConferInfo")
 	@ResponseBody
 	public void selConferInfo(String address, String size, String peoCount, String time,  
