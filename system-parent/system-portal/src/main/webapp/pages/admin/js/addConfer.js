@@ -30,6 +30,7 @@ function addConfer() {
 		}
 		//判断是不是有文件
 		if($("#file")[0].files.length==0){
+			flag = false;
 			alert("必须添加会议室图片");
 		}
 		
@@ -59,17 +60,22 @@ function addConfer() {
 				contentType : false,
 				async : false,
 				success : function(data) {
-					alert(data);
-					$("#conferName").val('');
-					$("#size").val('');
-					$("#price").val('');
-					$("#people").val('');
-					$("#tel").val('');
-					$("#address").val('');
-					$("#comm").val('');
-					$("#peoNum").val('');
-					var test = document.getElementById('images');
-					test.value = ''; 
+					if(data == ""){
+						alert("添加成功");
+						$("#conferName").val('');
+						$("#size").val('');
+						$("#price").val('');
+						$("#people").val('');
+						$("#tel").val('');
+						$("#address").val('');
+						$("#comm").val('');
+						$("#peoNum").val('');
+						$("#file").after($("#file").clone().val(""));   
+						$("#file").remove();  
+						$("#box1").html("");
+					} else {
+						alert(data);
+					}
 				}
 			});
 		}
@@ -87,7 +93,8 @@ function showAddC(obj){
 	$("#address").val('');
 	$("#comm").html('');
 	$("#peoNum").val('');
-	var test = document.getElementById('images');
-	test.value = ''; 
+	$("#file").after($("#file").clone().val("")); 
+	$("#file").remove(); 
+	$("#box1").html("");
 	openThis(obj);
 }

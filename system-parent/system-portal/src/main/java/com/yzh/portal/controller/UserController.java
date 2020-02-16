@@ -167,10 +167,10 @@ public class UserController {
 	public void backMsg(HttpServletRequest req,HttpServletResponse res) throws IOException{
 		//获取参数
 		String msg = req.getParameter("msg");
-		String uid = req.getParameter("uid");
+		String uname = req.getParameter("uname");
 		
 		//保存信息
-		int index = userServiceImpl.insUserMsg(Integer.parseInt(uid), msg);
+		int index = userServiceImpl.insUserMsg(uname, msg);
 		//判断是不是保存成功
 		if(index < 0){
 			msg = "提交失败";

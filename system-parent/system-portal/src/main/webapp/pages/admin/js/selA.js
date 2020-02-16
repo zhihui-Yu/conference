@@ -1,4 +1,6 @@
 function showSelA(obj) {
+	// 将数据置空
+	$("#selA_tbody").html("");
 	openThis(obj);
 	// 获取数据 第一次显示默认八条
 	getData(0, 8);
@@ -42,8 +44,6 @@ function getSelData(pageNum, pageSize) {
 // 插入数据
 function insSelA(data) {
 
-	// 将数据置空
-	$("#selA_tbody").html("");
 	// 类型转换
 	var approves = JSON.parse(data);
 	// 拼接数据

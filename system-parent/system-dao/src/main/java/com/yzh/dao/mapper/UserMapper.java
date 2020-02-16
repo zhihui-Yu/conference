@@ -5,20 +5,44 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yzh.dao.pojo.Approve;
 import com.yzh.dao.pojo.ConferInfor;
 import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
+import com.yzh.dao.pojo.Used;
 import com.yzh.dao.pojo.User;
 
 public interface UserMapper {
+	
+	/**
+	 * 查詢所有的使用情況
+	 * @return
+	 */
+	@Select("select * from used")
+	List<Used> selUsed();
+	
+	/**
+	 * 更新使用时间
+	 * @param time
+	 * @param id
+	 * @return
+	 */
+	@Update("update used set time = #{0} where id = #{1}")
+	int updUsed(Date time,int id);
+	
+	/**
+	 * 删除取消预约的时间
+	 * @param id
+	 * @return
+	 */
+	@Delete("delete from used where id = #{0}")
+	int delUsed(int id);
 	
 	/**
 	 * 查相应用户名的用户是不是存在
@@ -75,8 +99,9 @@ public interface UserMapper {
 	 * @param date
 	 * @return
 	 */
-	@Insert("insert into used values(default,#{0},#{1})")
-	int insUsed(int cid, @DateTimeFormat(pattern = "yyyy-MM-dd")@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")Date date);
+	@Insert("insert into used values(default,#{cid},#{time})")
+	@Options(useGeneratedKeys=true,keyProperty="id",keyColumn="id")
+	int insUsed(Used used);
 	
 	/**
 	 * 计算相应条件的confer 的长度
@@ -208,8 +233,8 @@ public interface UserMapper {
 	 * @param app
 	 * @return
 	 */
-	@Insert("insert into approve values (default,#{uname},#{cname},#{aname},#{time},#{money}"
-			+ ",#{status},#{dealtime},#{comm})")
+	@Insert("insert into approve values (default,#{uname},#{tel},#{cname},#{aname},#{time},#{money}"
+			+ ",#{status},#{dealtime},#{comm},#{usedid})")
 	int insApprove(Approve app);
 		
 	/**
@@ -227,8 +252,8 @@ public interface UserMapper {
 	 * @param msg 提交的信息
 	 * @return
 	 */
-	@Insert("insert into discuss(id,uid,usay) values(default,#{0},#{1})")
-	int insUserMsg(int uid,String msg);
+	@Insert("insert into discuss (id,uname,usay) values(default,#{0},#{1})")
+	int insUserMsg(String uname,String msg);
 	
 	/**
 	 * 通过用户的id查找用户爱好

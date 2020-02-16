@@ -123,9 +123,8 @@ function timeSet(){
 		$("#submitBackMsg").click(function() {
 			$.post("BackMsg", {
 				msg : $("#backMsg").val(),
-				uid : $("#uid").val()
+				uname : $("#uname").html()
 			}, function(data) {
-				alert(1111);
 				if (data == "提交成功") {
 					alert(data);
 					window.location.href = $("#jspPath").val() + "/main";

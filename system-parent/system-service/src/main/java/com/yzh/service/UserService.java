@@ -9,9 +9,31 @@ import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
+import com.yzh.dao.pojo.Used;
 import com.yzh.dao.pojo.User;
 
 public interface UserService {
+	
+	/**
+	 * 查詢所有的使用情況
+	 * @return
+	 */
+	List<Used> selUsed();
+	
+	/**
+	 * 更新使用时间
+	 * @param time
+	 * @param id
+	 * @return
+	 */
+	int updUsed(Date time,int id);
+	
+	/**
+	 * 删除取消预约的时间
+	 * @param id
+	 * @return
+	 */
+	int delUsed(int id);
 	
 	/**
 	 * 查相应用户名的用户是不是存在
@@ -80,7 +102,7 @@ public interface UserService {
 	 * @param date
 	 * @return
 	 */
-	int insUsed(int cid, Date date);
+	int insUsed(Used used);
 	
 	/**
 	 * 计算相应条件的confer 的长度
@@ -208,11 +230,11 @@ public interface UserService {
 	/**
 	 * 保存用户的反馈信息
 	 * 
-	 * @param uid 用户id
+	 * @param uname 用户name
 	 * @param msg 提交的信息
 	 * @return
 	 */
-	int insUserMsg(int uid,String msg);
+	int insUserMsg(String uname,String msg);
 	
 	/**
 	 * 通过用户的id查找用户爱好

@@ -1,5 +1,7 @@
 function showTakeMsg(obj) {
 	openThis(obj);
+	// 将数据置空
+	$("#takeMsg_tbody").html("");
 	// 获取数据 第一次显示默认八条
 	getMsg(0, 8);
 	// 添加页码

@@ -25,7 +25,16 @@ public class Approve {
 	private double money;
 	private String status;
 	private String tel;
+	private String comm;
+	private int usedid;
 	
+	
+	public int getUsedid() {
+		return usedid;
+	}
+	public void setUsedid(int usedid) {
+		this.usedid = usedid;
+	}
 	public String getTel() {
 		return tel;
 	}
@@ -38,7 +47,6 @@ public class Approve {
 	public void setDealtime(Date dealtime) {
 		this.dealtime = dealtime;
 	}
-	private String comm;
 	
 	public int getId() {
 		return id;

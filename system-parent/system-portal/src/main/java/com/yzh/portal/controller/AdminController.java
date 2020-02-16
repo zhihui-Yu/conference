@@ -274,7 +274,7 @@ public class AdminController {
 		} else {
 			// 判断当前状态
 			if (status.equals("通过审核")) {
-				msg = "待缴费";
+				msg = "待使用";
 			} else if (status.equals("拒绝")) {
 				msg = "已拒绝";
 			} else if (status.equals("完成")) {
@@ -460,8 +460,8 @@ public class AdminController {
 	@RequestMapping("addConfer")
 	public void addConfer(HttpServletRequest req, HttpServletResponse res, @RequestParam MultipartFile[] file)
 			throws IOException {
-		AddConfer.addConfer(req, file, adminServiceImpl);
-		ResponseString.respongString(res, "添加成功");
+		msg = AddConfer.addConfer(req, file, adminServiceImpl);
+		ResponseString.respongString(res, msg);
 	}
 
 	/**

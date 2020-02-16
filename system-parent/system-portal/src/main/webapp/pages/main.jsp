@@ -82,7 +82,7 @@ body {
 								onclick="showAllApprove(this)" data-toggle="tab">我的会议</a></li>
 							<li><a id="#panel-3" href="javascript:void(0)"
 								onclick="approveInfo(this);" data-toggle="tab">会议审核</a></li>
-							<li><label style="margin: 11px 0 0 740px;">欢迎&nbsp;<span
+							<li><label style="margin: 11px 0 0 700px;">欢迎&nbsp;<span
 									id="uname">${users.user.username }</span></label>
 							<li>
 							<li class="dropdown pull-right"><a data-toggle="dropdown"
@@ -299,7 +299,7 @@ body {
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default"
 												data-dismiss="modal">关闭</button>
-											<button type="button" class="btn btn-primary" onclick="updApproveTime()">提交更改</button>
+											<button type="button" class="btn btn-primary" id="updApproveTime">提交更改</button>
 										</div>
 									</div>
 									<!-- /.modal-content -->
@@ -494,7 +494,7 @@ body {
 								<!--幻灯片-->
 								<div class="carousel slide" id="carousel-627584">
 									<ol class="carousel-indicators">
-										<li class="active" data-slide-to="0"
+										<li data-slide-to="0"
 											data-target="#carousel-627584" id="detailOl"></li>
 									</ol>
 									<div class="carousel-inner">
@@ -518,7 +518,7 @@ body {
 									style="line-height: 34px; text-align: left;">
 								</div>
 								<button type="button" class="btn btn-default"
-									onclick="orderConfer();"
+									id="orderConfer"
 									style="width: 120px; margin: 25px 0 0 130px;">预定</button>
 							</div>
 						</div>

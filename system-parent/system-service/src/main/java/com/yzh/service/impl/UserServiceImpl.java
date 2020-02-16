@@ -14,6 +14,7 @@ import com.yzh.dao.pojo.Discuss;
 import com.yzh.dao.pojo.Fav;
 import com.yzh.dao.pojo.Favorite;
 import com.yzh.dao.pojo.PeoNum;
+import com.yzh.dao.pojo.Used;
 import com.yzh.dao.pojo.User;
 import com.yzh.service.UserService;
 @Service
@@ -57,8 +58,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int insUserMsg(int uid, String msg) {
-		return userMapper.insUserMsg(uid, msg);
+	public int insUserMsg(String uname, String msg) {
+		return userMapper.insUserMsg(uname, msg);
 	}
 
 	@Override
@@ -142,8 +143,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int insUsed(int cid, Date date) {
-		return userMapper.insUsed(cid, date);
+	public int insUsed(Used used) {
+		return userMapper.insUsed(used);
 	}
 
 	@Override
@@ -184,6 +185,21 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User selUserByTel(String tel) {
 		return userMapper.selUserByTel(tel);
+	}
+
+	@Override
+	public List<Used> selUsed() {
+		return this.userMapper.selUsed();
+	}
+
+	@Override
+	public int updUsed(Date time, int id) {
+		return this.userMapper.updUsed(time, id);
+	}
+
+	@Override
+	public int delUsed(int id) {
+		return this.userMapper.delUsed(id);
 	}
 
 }

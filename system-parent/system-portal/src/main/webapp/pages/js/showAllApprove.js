@@ -39,8 +39,8 @@ function insertAllApprove(data){
 		}
 		var button = "";
 		if(approves[i].status!="待使用"){
-			button = "<button type='button' onclick = 'delRecord("
-				+ approves[i].id + ")'>删除记录</button>";
+			button = "<a href='javasript:void(0)' onclick = 'delRecord("
+				+ approves[i].id + ")'>删除记录</a>";
 		}
 		str += "<tr>"
 			+'<td>'+(parseInt(i)+1)+'</td>'
@@ -60,8 +60,8 @@ function insertAllApprove(data){
 //删除记录
 function delRecord(id){
 	//ajax请求删除
-	$.post("delApprove",{appid:id},function(data){
-		if(data=="取消成功"){
+	$.post("delRecord",{appid:id},function(data){
+		if(data==""){
 			alert("删除成功");
 		}
 		showAllApprove();

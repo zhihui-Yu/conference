@@ -10,6 +10,7 @@ function Jump(obj){
 		$("#info").html("");
 		if(data!="无会议室信息"){
 			var confer = JSON.parse(data);
+			$("#orderConfer").attr("onclick","orderConfer("+confer.ci.cid+")");
 			//添加文字数据
 			var str = '<span style="display:none" id="cid">'+confer.ci.cid+'</span><br/>'
 					  +'<label>会议室名 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+confer.ci.conferName+'</span><br/>'
@@ -42,11 +43,13 @@ function Jump(obj){
 					$("#detailImg").parent().append('<div class="item"><img src="'+confer.img[i].path+'" style="width: 100%; height: 400px;" /></div>');
 				}
 			}
+			$("#detailOl").addClass("active");
 		} else {
 			alert(data);
 		}
 		timeSet();
 	});
+	
 	//跳转页面
 	show(obj);
 }
