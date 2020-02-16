@@ -498,7 +498,7 @@ body {
 											data-target="#carousel-627584" id="detailOl"></li>
 									</ol>
 									<div class="carousel-inner">
-										<div class="item active" id="detailImg">
+										<div class="item" id="detailImg">
 											<img style="width: 100%; height: 400px;" />
 										</div>
 									</div>

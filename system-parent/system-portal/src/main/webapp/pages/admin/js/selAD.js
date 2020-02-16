@@ -9,6 +9,8 @@ function showSelAD(obj) {
 }
 // 不查询情况下分页查找
 function getDataAD(pageNum, pageSize) {
+	// 将数据置空
+	$("#selAD_tbody").html("");
 	$.post("selAllApp", {
 		pageSize : pageSize,
 		pageNum : pageNum
@@ -22,6 +24,8 @@ function getDataAD(pageNum, pageSize) {
 }
 // 查询情况下分页查找
 function getSelDataAD(pageNum, pageSize) {
+	// 将数据置空
+	$("#selAD_tbody").html("");
 	var name = $("#AD_name").val();
 	if (name == "" || name == null) {
 		alert("输入查询条件");
@@ -43,7 +47,6 @@ function getSelDataAD(pageNum, pageSize) {
 }
 // 插入数据
 function insSelAD(data) {
-
 	// 将数据置空
 	$("#selAD_tbody").html("");
 	// 类型转换

@@ -9,6 +9,8 @@ function showUse(obj) {
 }
 // 不查询情况下分页查找
 function getUse(pageNum, pageSize) {
+	// 将数据置空
+	$("#useConfer_tbody").html("");
 	$.post("selUse", {
 		pageSize : pageSize,
 		pageNum : pageNum

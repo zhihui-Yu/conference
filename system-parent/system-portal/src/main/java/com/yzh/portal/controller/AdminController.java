@@ -154,11 +154,15 @@ public class AdminController {
 		// 获取当前管理员名称
 		HttpSession session = req.getSession();
 		Admin admin = (Admin) session.getAttribute("admin");
-		int index = adminServiceImpl.updDiscuss(Integer.parseInt(id), admin.getAdminName(), asay);
-		if (index > 0) {
-			msg = "信息已发送";
+		if(admin == null ){
+			msg = "请登入";
 		} else {
-			msg = "失败";
+			int index = adminServiceImpl.updDiscuss(Integer.parseInt(id), admin.getAdminName(), asay);
+			if (index > 0) {
+				msg = "信息已发送";
+			} else {
+				msg = "失败";
+			}
 		}
 		ResponseString.respongString(res, msg);
 	}

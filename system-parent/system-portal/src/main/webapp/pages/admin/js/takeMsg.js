@@ -9,6 +9,8 @@ function showTakeMsg(obj) {
 }
 // 不查询情况下分页查找
 function getMsg(pageNum, pageSize) {
+	// 将数据置空
+	$("#takeMsg_tbody").html("");
 	$.post("selMsg", {
 		pageSize : pageSize,
 		pageNum : pageNum

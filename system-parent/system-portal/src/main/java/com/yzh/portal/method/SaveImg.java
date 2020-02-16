@@ -32,8 +32,7 @@ public class SaveImg {
 					//获取随机生成的图像名
 					path = name + "." + ext;
 					if (k < file.length) {
-						paths[k] = path;
-						k++;
+						paths[k++] = path;
 					}
 				}
 			}

@@ -256,7 +256,13 @@ public class CommonController {
 		}
 		ResponseString.respongString(res, msg);
 	}
-
+	
+	/**
+	 * 删除已完成记录
+	 * @param appid
+	 * @param res
+	 * @throws IOException
+	 */
 	@RequestMapping("delRecord")
 	@ResponseBody
 	public void delRecord(int appid, HttpServletResponse res) throws IOException{

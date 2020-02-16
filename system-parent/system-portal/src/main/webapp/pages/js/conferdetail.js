@@ -1,12 +1,11 @@
 //跳转会议室预约界面前的准备
 function Jump(obj){
+	//将图片部分初始化
+	//只保留第一个
+	$("#detailOl").siblings().remove();
+	$("#detailImg").siblings().remove();
 	//给页面填充数据
 	$.post("detailConfer",{id:$(obj).children("input").val()},function(data){
-		//将图片部分初始化
-		//只保留第一个
-		$("#detailOl").siblings().remove();
-		$("#detailImg").siblings().remove();
-		
 		$("#info").html("");
 		if(data!="无会议室信息"){
 			var confer = JSON.parse(data);
@@ -24,26 +23,39 @@ function Jump(obj){
 					  +'<label>申请时间 ：</label><span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="date"/></span><br/>'
 					  +'<span style="margin-left: 320px;"> <a href="main">返回>></a></span>';
 			$("#info").append(str);
+			
 			//判断图片是不是多张  不是则去掉左右移动的
 			if(confer.img.length == 1){
 				$("#detailOl").parent().parent().children("a").each(function(){
 					$(this).css("display","none");
 				})
+			} else {
+				$("#detailOl").parent().parent().children("a").each(function(){
+					$(this).css("display","block");
+				})
 			}
-			//添加图片数据
-			for(var i = 0;i < confer.img.length;i++){
-				if(i < 1){
-					//给一个img 赋值
-					$("#detailImg").children("img").attr("src",""+confer.img[i].path);
-				} else {
-					//有多个情况  
-					//多一个li
-					$("#detailOl").parent().append('<li data-slide-to="'+i+'" data-target="#carousel-627584"></li>');
-					//多一个图片有值
-					$("#detailImg").parent().append('<div class="item"><img src="'+confer.img[i].path+'" style="width: 100%; height: 400px;" /></div>');
+			
+			//有多个情况  
+			if(confer.img.length > 1) {
+				$("#detailOl").css("display","inline-block");
+				//添加图片数据
+				for(var i = 0;i < confer.img.length;i++){
+					if(i == 0){
+						$("#detailImg").children("img").attr("src",""+confer.img[i].path);
+					} else {
+						//给img 赋值
+						//多一个li
+						$("#detailOl").parent().append('<li data-slide-to="'+i+'" data-target="#carousel-627584"></li>');
+						//多一个图片有值
+						$("#detailImg").parent().append('<div class="item"><img src="'+confer.img[i].path+'" style="width: 100%; height: 400px;" /></div>');
+					}
 				}
+			} else {
+				$("#detailOl").css("display","none");
+				$("#detailImg").children("img").attr("src",""+confer.img[0].path);
 			}
 			$("#detailOl").addClass("active");
+			$("#detailImg").addClass("active");
 		} else {
 			alert(data);
 		}

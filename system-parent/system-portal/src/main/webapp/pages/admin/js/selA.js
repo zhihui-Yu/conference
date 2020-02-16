@@ -9,6 +9,8 @@ function showSelA(obj) {
 }
 // 不查询情况下分页查找
 function getData(pageNum, pageSize) {
+	// 将数据置空
+	$("#selA_tbody").html("");
 	$.post("selApp", {
 		pageSize : pageSize,
 		pageNum : pageNum
@@ -43,7 +45,8 @@ function getSelData(pageNum, pageSize) {
 }
 // 插入数据
 function insSelA(data) {
-
+	// 将数据置空
+	$("#selA_tbody").html("");
 	// 类型转换
 	var approves = JSON.parse(data);
 	// 拼接数据
@@ -55,7 +58,6 @@ function insSelA(data) {
 		var oper = '<td>'
 				+ "<button type='button' class='layui-btn layui-btn-primary layui-btn-xs' onclick = 'comm("
 				+ approves[i].id + ")'>备注</button>&nbsp;&nbsp;";
-		;
 		if (approves[i].status == "待审核") {
 			oper += "<button type='button' class='layui-btn layui-btn-xs' onclick = 'approve("
 					+ approves[i].id

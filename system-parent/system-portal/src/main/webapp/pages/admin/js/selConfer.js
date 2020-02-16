@@ -9,6 +9,8 @@ function showConfer(obj){
 }
 //不查询情况下分页查找
 function getConfer(pageNum, pageSize) {
+	// 将数据置空
+	$("#selConfer_tbody").html("");
 	$.post("selConfer", {
 		pageSize : pageSize,
 		pageNum : pageNum,

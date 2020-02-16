@@ -9,6 +9,8 @@ function showUser(obj) {
 }
 // 不查询情况下分页查找
 function getUser(pageNum, pageSize) {
+	// 将数据置空
+	$("#takeUser_tbody").html("");
 	$.post("selUser", {
 		pageSize : pageSize,
 		pageNum : pageNum
@@ -51,7 +53,6 @@ function getSelUser(pageNum, pageSize) {
 }
 // 插入数据
 function insSelUser(data) {
-
 	// 将数据置空
 	$("#takeUser_tbody").html("");
 	// 类型转换
