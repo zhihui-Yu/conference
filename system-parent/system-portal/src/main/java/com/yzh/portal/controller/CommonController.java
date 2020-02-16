@@ -379,6 +379,7 @@ public class CommonController {
 					app.setCname(adminServiceImpl.selConferByCid(Integer.parseInt(id)).getConferName());
 					app.setUname(userServiceImpl.selNameUserById(Integer.parseInt(uid)));
 					app.setTime(sdf.parse(date));
+					app.setTel(user.getTel());
 					app.setDealtime(new Date());
 					app.setMoney(Double.parseDouble(money));
 					app.setStatus("待审核");
