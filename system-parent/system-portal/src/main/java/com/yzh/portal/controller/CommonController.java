@@ -225,7 +225,7 @@ public class CommonController {
 		Date date2 = sdf.parse(date);
 
 		boolean flag = true;
-		// 判断会议室和时间是不是冲突
+		// 判断会议室的时间是不是冲突
 		List<Used> useds = this.userServiceImpl.selUsed();
 		Used u = new Used();
 		//获取useid 对应的对象

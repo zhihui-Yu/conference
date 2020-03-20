@@ -14,6 +14,13 @@ import com.yzh.dao.pojo.User;
 public interface AdminService {
 	
 	/**
+	 * 根据id找订单
+	 * @param id
+	 * @return
+	 */
+	Approve selAppById(int id);
+	
+	/**
 	 * 通过电话查找订单信息
 	 * @param pageNum
 	 * @param pageSize

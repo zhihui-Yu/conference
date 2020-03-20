@@ -242,5 +242,10 @@ public class AdminServiceImpl implements AdminService{
 	public List<Approve> selUse(int pageNum, int pageSize) {
 		return adminMapper.selUse(pageNum, pageSize);
 	}
+
+	@Override
+	public Approve selAppById(int id) {
+		return adminMapper.selAppById(id);
+	}
 	
 }

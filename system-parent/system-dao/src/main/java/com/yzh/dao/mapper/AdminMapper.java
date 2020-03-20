@@ -17,7 +17,15 @@ import com.yzh.dao.pojo.PeoNum;
 import com.yzh.dao.pojo.User;
 
 public interface AdminMapper {
-
+	
+	/**
+	 * 根据id找订单
+	 * @param id
+	 * @return
+	 */
+	@Select("select * from approve where id = #{0}")
+	Approve selAppById(int id);
+	
 	/**
 	 * 通过电话查找订单信息
 	 * @param pageNum

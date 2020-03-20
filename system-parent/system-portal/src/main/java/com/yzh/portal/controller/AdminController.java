@@ -32,6 +32,7 @@ import com.yzh.portal.method.AddConfer;
 import com.yzh.portal.method.ResponseString;
 import com.yzh.portal.method.SaveImg;
 import com.yzh.service.AdminService;
+import com.yzh.service.UserService;
 
 @Controller
 @RequestMapping("/pages/admin")
@@ -39,7 +40,9 @@ public class AdminController {
 
 	@Resource
 	private AdminService adminServiceImpl;
-
+	
+	@Resource
+	private UserService  userServiceImpl;
 	String msg = "";
 	
 	/**
@@ -51,7 +54,8 @@ public class AdminController {
 	 */
 	@ResponseBody
 	@RequestMapping("changeImgById")
-	public void changeImgById(HttpServletRequest req, int id,@RequestParam MultipartFile[] file, HttpServletResponse res) throws IOException{
+	public void changeImgById(HttpServletRequest req, int id,@RequestParam MultipartFile[] file, 
+			HttpServletResponse res) throws IOException{
 		//获取本地的图片地址
 		String url = req.getSession().getServletContext().getRealPath("//upload/");
 		//删除本地会议室图片
@@ -273,6 +277,7 @@ public class AdminController {
 		// 获取当前管理员名称
 		HttpSession session = req.getSession();
 		Admin admin = (Admin) session.getAttribute("admin");
+		int count = 0;
 		if (admin == null) {
 			msg = "请先登入";
 		} else {
@@ -281,13 +286,20 @@ public class AdminController {
 				msg = "待使用";
 			} else if (status.equals("拒绝")) {
 				msg = "已拒绝";
+				count = 1;
 			} else if (status.equals("完成")) {
 				msg = "待使用";
 			} else if(status.equals("使用")){
 				msg = "已完成";
 			}
 			int index = adminServiceImpl.updApproveStatusById(msg, Integer.parseInt(id), admin.getAdminName());
-			if (index > 0) {
+			//如果拒绝则将预定金额返还
+			if(count == 1) {
+				Approve approve = adminServiceImpl.selAppById(Integer.parseInt(id));
+				User user = userServiceImpl.selUserByName(approve.getUname());
+				index +=userServiceImpl.updUserMoneyAdd(user.getUid(), approve.getMoney());
+			}
+			if ((count==1 && index > 1)|| index >0) {
 				msg = "成功";
 			} else {
 				msg = "失败";

@@ -11,7 +11,7 @@ function check(){
 			if(mPattern.test(tel)){
 				//判断电话号码和用户名是不是重复
 				$.post("checkNameAndTel",{name:name,tel:tel},function(data){
-					if(data==""){
+					if(data=="" || data==null){
 						return true;
 					} else {
 						alert(data);
