@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50712
 File Encoding         : 65001
 
-Date: 2020-02-16 19:43:15
+Date: 2020-05-10 14:24:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -55,8 +55,8 @@ CREATE TABLE `approve` (
 -- ----------------------------
 -- Records of approve
 -- ----------------------------
-INSERT INTO `approve` VALUES ('49', 'zhangsan', '13225963990', '7', 'admin', '2020-02-18', '160', '待使用', '2020-02-16 19:09:06', null, '18');
-INSERT INTO `approve` VALUES ('50', 'zhangsan', '13225963990', '12', 'admin', '2020-02-19', '123', '待使用', '2020-02-16 19:12:09', null, '19');
+INSERT INTO `approve` VALUES ('49', 'zhangsan', '13225963990', '7', 'admin', '2020-02-18', '160', '已完成', '2020-02-16 19:09:06', null, '18');
+INSERT INTO `approve` VALUES ('50', 'zhangsan', '13225963990', '12', 'admin', '2020-02-19', '123', '已完成', '2020-02-16 19:12:09', null, '19');
 INSERT INTO `approve` VALUES ('51', 'zhangsan', '13225963990', '6', 'admin', '2020-02-19', '213', '待使用', '2020-02-16 19:12:49', null, '20');
 INSERT INTO `approve` VALUES ('52', 'zhangsan', '13225963990', '6', 'admin', '2020-02-20', '213', '待使用', '2020-02-16 19:13:44', null, '21');
 
@@ -80,7 +80,6 @@ CREATE TABLE `confer_infor` (
 -- ----------------------------
 -- Records of confer_infor
 -- ----------------------------
-INSERT INTO `confer_infor` VALUES ('5', '7', '70', '160', '0-10', '北京信息', 'sam', '98765432100', 'sssss');
 INSERT INTO `confer_infor` VALUES ('6', '6', '123', '213', '51-100', '福州小别院', '1231', '13132311534', '又大又漂亮');
 INSERT INTO `confer_infor` VALUES ('7', '12', '123', '123', '0-10', '123', '123', '123', '');
 INSERT INTO `confer_infor` VALUES ('8', '8', '500', '3020', '21-50', '123456', '44', '12345678910', '111');
@@ -94,6 +93,7 @@ INSERT INTO `confer_infor` VALUES ('15', 'confer3', '56', '99.99', '0-10', '1234
 INSERT INTO `confer_infor` VALUES ('24', '会议室3', '30', '200', '11-20', '厦门市海沧区', '李先生', '15659988137', '欢迎');
 INSERT INTO `confer_infor` VALUES ('25', '会议室4', '300', '1000', '21-50', '集美区地铁站附近', '王先生', '15659988137', '12345');
 INSERT INTO `confer_infor` VALUES ('26', 'confer1', '55', '200', '51-100', '集美区北大街', '李先生', '13123174842', '222');
+INSERT INTO `confer_infor` VALUES ('27', 'confer10', '50', '199', '11-20', '集美区凤弈花园13B2020号', '王先生', '13865675861', '暂无');
 
 -- ----------------------------
 -- Table structure for `deal`
@@ -124,12 +124,14 @@ CREATE TABLE `discuss` (
   `usay` varchar(100) DEFAULT NULL,
   `asay` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='discuss';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='discuss';
 
 -- ----------------------------
 -- Records of discuss
 -- ----------------------------
 INSERT INTO `discuss` VALUES ('19', 'zhangsan', 'admin', '界面不怎么样', '谢谢你的宝贵意见，我们会尽快维护的。');
+INSERT INTO `discuss` VALUES ('20', 'zs', 'admin', '11223344', '挺好');
+INSERT INTO `discuss` VALUES ('21', 'zs', null, '有待改良', null);
 
 -- ----------------------------
 -- Table structure for `fav`
@@ -177,13 +179,11 @@ CREATE TABLE `img` (
   `cid` int(10) NOT NULL,
   `path` varchar(100) NOT NULL,
   PRIMARY KEY (`imgid`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='img';
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 COMMENT='img';
 
 -- ----------------------------
 -- Records of img
 -- ----------------------------
-INSERT INTO `img` VALUES ('77', '5', '186434bf194a4011862e07dab40f155d.jpg');
-INSERT INTO `img` VALUES ('78', '5', 'da30cfc55b1d461f943f087c1e8d20ea.jpg');
 INSERT INTO `img` VALUES ('79', '6', '2edf5ed557084a60a463217c24ed727c.jpg');
 INSERT INTO `img` VALUES ('80', '6', '8d70a49f001b44bea07e5cb5fc7e74f7.jpg');
 INSERT INTO `img` VALUES ('81', '7', '6e813127bd4b46b584015a5390d8a21c.jpg');
@@ -209,6 +209,9 @@ INSERT INTO `img` VALUES ('100', '25', '532bcae4198b49ce89dc9d67e0dab4e1.jpg');
 INSERT INTO `img` VALUES ('101', '25', 'dcc3932553864905af68d9e73c922bfd.jpg');
 INSERT INTO `img` VALUES ('102', '26', '12ab465140284e7f8ad1eac298726e25.jpg');
 INSERT INTO `img` VALUES ('103', '26', 'a878144706f6409da00b277b56383d18.jpg');
+INSERT INTO `img` VALUES ('104', '27', '2c06a96fbaae4c25b96653f2e3b28ae5.jpg');
+INSERT INTO `img` VALUES ('105', '27', 'e0d9a4d085f948089728af1fe2818a60.jpg');
+INSERT INTO `img` VALUES ('106', '27', '06d61b47c2ff4c0f87f693685c6651c5.jpg');
 
 -- ----------------------------
 -- Table structure for `peonum`
@@ -291,7 +294,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'zs', '123', '1', '15659988137', '298', '0', '2020-01-11', '星星大厦E座1204', '123456');
+INSERT INTO `user` VALUES ('1', 'zs', '123', '1', '15659988137', '498', '0', '2020-01-11', '星星大厦E座1204', '123456');
 INSERT INTO `user` VALUES ('15', 'zhangsan', '123', '0', '13225963990', '1191', '0', '2020-02-14', '星星大厦E座1204', '  暂无');
 INSERT INTO `user` VALUES ('23', 'listenerST', 'adminA.?1', '0', '13225963991', '0', '0', null, null, ' ');
 INSERT INTO `user` VALUES ('24', 'listenerST1', 'adminA.?1', '0', '13225963992', '0', '0', null, null, ' ');
